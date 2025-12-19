@@ -71,16 +71,34 @@ const Categories = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('¿Está seguro de eliminar esta categoría?')) {
-      try {
-        await axios.delete(`${API}/categories/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        fetchCategories();
-      } catch (error) {
-        console.error('Error deleting category:', error);
-        alert('Error al eliminar la categoría');
+    const category = categories.find(c => c.id === id);
+    
+    // Verificar si hay productos en esta categoría
+    try {
+      const productsResponse = await axios.get(`${API}/products`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const productsInCategory = productsResponse.data.filter(p => p.category_id === id);
+      
+      if (productsInCategory.length > 0) {
+        if (!window.confirm(`Esta categoría tiene ${productsInCategory.length} producto(s) asociado(s).\n\n¿Está seguro de eliminar la categoría "${category?.name}"?\n\nNota: Los productos no se eliminarán, pero quedarán sin categoría.`)) {
+          return;
+        }
+      } else {
+        if (!window.confirm(`¿Está seguro de eliminar la categoría "${category?.name}"?\n\nEsta acción no se puede deshacer.`)) {
+          return;
+        }
       }
+      
+      await axios.delete(`${API}/categories/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchCategories();
+      alert('Categoría eliminada exitosamente');
+    } catch (error) {
+      console.error('Error deleting category:', error);
+      const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
+      alert('Error al eliminar la categoría: ' + errorMsg);
     }
   };
 
