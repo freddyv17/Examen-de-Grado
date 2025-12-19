@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Layout from '../components/Layout';
 import axios from 'axios';
 import { AuthContext } from '../App';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, X } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -12,6 +12,9 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+  const [showProductsModal, setShowProductsModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categoryProducts, setCategoryProducts] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     description: ''
