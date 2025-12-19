@@ -120,15 +120,18 @@ const Products = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('¿Está seguro de eliminar este producto?')) {
+    const product = products.find(p => p.id === id);
+    if (window.confirm(`¿Está seguro de eliminar el producto "${product?.name}"?\n\nEsta acción no se puede deshacer.`)) {
       try {
         await axios.delete(`${API}/products/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         fetchProducts();
+        alert('Producto eliminado exitosamente');
       } catch (error) {
         console.error('Error deleting product:', error);
-        alert('Error al eliminar el producto');
+        const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
+        alert('Error al eliminar el producto: ' + errorMsg);
       }
     }
   };
