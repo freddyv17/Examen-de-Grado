@@ -54,6 +54,82 @@ const Dashboard = () => {
     }
   };
 
+  const handleStatClick = async (type) => {
+    setLoading(true);
+    try {
+      let data = [];
+      let title = '';
+      
+      switch(type) {
+        case 'sales-today':
+          const today = new Date().toISOString().split('T')[0];
+          const salesRes = await axios.get(`${API}/sales`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          data = salesRes.data.filter(sale => sale.created_at.startsWith(today));
+          title = 'Ventas de Hoy';
+          break;
+          
+        case 'low-stock':
+          const productsRes = await axios.get(`${API}/products`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          data = productsRes.data.filter(p => p.stock <= p.min_stock && p.active);
+          title = 'Productos con Stock Bajo';
+          break;
+          
+        case 'products':
+          const allProductsRes = await axios.get(`${API}/products`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          data = allProductsRes.data.filter(p => p.active);
+          title = 'Productos Activos';
+          break;
+          
+        case 'customers':
+          const customersRes = await axios.get(`${API}/customers`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          data = customersRes.data;
+          title = 'Clientes Registrados';
+          break;
+          
+        case 'sales-month':
+          const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
+          const monthSalesRes = await axios.get(`${API}/sales`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          data = monthSalesRes.data.filter(sale => sale.created_at >= firstDay);
+          title = 'Ventas del Mes';
+          break;
+      }
+      
+      setModalData({ show: true, type, data, title });
+    } catch (error) {
+      console.error('Error fetching detail data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const closeModal = () => {
+    setModalData({ show: false, type: '', data: [], title: '' });
+  };
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('es-NI', { style: 'currency', currency: 'NIO' }).format(value);
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleString('es-NI', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   if (loading) {
     return (
       <Layout>
