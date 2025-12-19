@@ -222,6 +222,103 @@ const Categories = () => {
             </div>
           </div>
         )}
+
+        {/* Products Modal */}
+        {showProductsModal && selectedCategory && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg w-full max-w-4xl max-h-[80vh] overflow-hidden">
+              <div className="flex justify-between items-center p-6 border-b bg-emerald-50">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">{selectedCategory.name}</h2>
+                  <p className="text-sm text-gray-600 mt-1">{selectedCategory.description}</p>
+                </div>
+                <button 
+                  onClick={() => setShowProductsModal(false)} 
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+              
+              <div className="p-6 overflow-y-auto max-h-[60vh]">
+                {categoryProducts.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-gray-500 text-lg">No hay productos en esta categoría</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {categoryProducts.map((product) => (
+                      <div 
+                        key={product.id} 
+                        className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900">{product.name}</h3>
+                            <p className="text-sm text-gray-600 mt-1">{product.description}</p>
+                          </div>
+                          {product.stock <= product.min_stock ? (
+                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                              Stock Bajo
+                            </span>
+                          ) : (
+                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                              Disponible
+                            </span>
+                          )}
+                        </div>
+                        
+                        <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                          <div>
+                            <p className="text-gray-500">Precio</p>
+                            <p className="font-semibold text-emerald-600 text-lg">
+                              ${product.price.toFixed(2)}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-gray-500">Stock</p>
+                            <p className="font-semibold text-gray-900 text-lg">
+                              {product.stock} unidades
+                            </p>
+                          </div>
+                        </div>
+
+                        {product.barcode && (
+                          <div className="mt-2 text-xs text-gray-500">
+                            Código: {product.barcode}
+                          </div>
+                        )}
+
+                        {product.expiration_date && (
+                          <div className="mt-2 text-xs text-gray-500">
+                            Vence: {new Date(product.expiration_date).toLocaleDateString('es-NI')}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="mt-6 pt-4 border-t">
+                  <div className="flex justify-between items-center text-sm text-gray-600">
+                    <span>Total de productos en esta categoría:</span>
+                    <span className="font-semibold text-lg text-gray-900">
+                      {categoryProducts.length} productos
+                    </span>
+                  </div>
+                  {categoryProducts.length > 0 && (
+                    <div className="mt-2 text-sm text-gray-600">
+                      <span>Stock total: </span>
+                      <span className="font-semibold">
+                        {categoryProducts.reduce((sum, p) => sum + p.stock, 0)} unidades
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
