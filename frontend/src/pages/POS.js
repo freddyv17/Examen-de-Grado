@@ -117,11 +117,15 @@ const POS = () => {
         payment_method: paymentMethod
       };
 
-      await axios.post(`${API}/sales`, saleData, {
+      const response = await axios.post(`${API}/sales`, saleData, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      alert('Venta realizada con éxito');
+      // Guardar la venta para mostrar el recibo
+      setLastSale(response.data);
+      setShowReceipt(true);
+      
+      // Limpiar el carrito y formulario
       setCart([]);
       setSelectedCustomer(null);
       setDiscount(0);
