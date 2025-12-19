@@ -74,16 +74,34 @@ const Suppliers = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('¿Está seguro de eliminar este proveedor?')) {
-      try {
-        await axios.delete(`${API}/suppliers/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        fetchSuppliers();
-      } catch (error) {
-        console.error('Error deleting supplier:', error);
-        alert('Error al eliminar el proveedor');
+    const supplier = suppliers.find(s => s.id === id);
+    
+    // Verificar si hay productos de este proveedor
+    try {
+      const productsResponse = await axios.get(`${API}/products`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const productsFromSupplier = productsResponse.data.filter(p => p.supplier_id === id);
+      
+      if (productsFromSupplier.length > 0) {
+        if (!window.confirm(`Este proveedor tiene ${productsFromSupplier.length} producto(s) asociado(s).\n\n¿Está seguro de eliminar al proveedor "${supplier?.name}"?\n\nNota: Los productos no se eliminarán, pero quedarán sin proveedor.`)) {
+          return;
+        }
+      } else {
+        if (!window.confirm(`¿Está seguro de eliminar al proveedor "${supplier?.name}"?\n\nEsta acción no se puede deshacer.`)) {
+          return;
+        }
       }
+      
+      await axios.delete(`${API}/suppliers/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchSuppliers();
+      alert('Proveedor eliminado exitosamente');
+    } catch (error) {
+      console.error('Error deleting supplier:', error);
+      const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
+      alert('Error al eliminar el proveedor: ' + errorMsg);
     }
   };
 
