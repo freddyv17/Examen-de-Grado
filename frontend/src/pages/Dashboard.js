@@ -147,7 +147,11 @@ const Dashboard = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white rounded-lg shadow-md p-6" data-testid="stat-sales-today">
+          <div 
+            onClick={() => handleStatClick('sales-today')}
+            className="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow" 
+            data-testid="stat-sales-today"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Ventas Hoy</p>
@@ -158,9 +162,17 @@ const Dashboard = () => {
                 <DollarSign className="text-emerald-600" size={24} />
               </div>
             </div>
+            <div className="mt-2 flex items-center text-xs text-blue-600">
+              <Eye size={14} className="mr-1" />
+              Click para ver detalles
+            </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6" data-testid="stat-low-stock">
+          <div 
+            onClick={() => handleStatClick('low-stock')}
+            className="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow" 
+            data-testid="stat-low-stock"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Stock Bajo</p>
@@ -171,9 +183,17 @@ const Dashboard = () => {
                 <AlertTriangle className="text-orange-600" size={24} />
               </div>
             </div>
+            <div className="mt-2 flex items-center text-xs text-blue-600">
+              <Eye size={14} className="mr-1" />
+              Click para ver detalles
+            </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6" data-testid="stat-products">
+          <div 
+            onClick={() => handleStatClick('products')}
+            className="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow" 
+            data-testid="stat-products"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Productos Activos</p>
@@ -184,9 +204,17 @@ const Dashboard = () => {
                 <Package className="text-blue-600" size={24} />
               </div>
             </div>
+            <div className="mt-2 flex items-center text-xs text-blue-600">
+              <Eye size={14} className="mr-1" />
+              Click para ver detalles
+            </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6" data-testid="stat-customers">
+          <div 
+            onClick={() => handleStatClick('customers')}
+            className="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow" 
+            data-testid="stat-customers"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Clientes</p>
@@ -196,6 +224,10 @@ const Dashboard = () => {
               <div className="bg-purple-100 p-3 rounded-full">
                 <Users className="text-purple-600" size={24} />
               </div>
+            </div>
+            <div className="mt-2 flex items-center text-xs text-blue-600">
+              <Eye size={14} className="mr-1" />
+              Click para ver detalles
             </div>
           </div>
         </div>
