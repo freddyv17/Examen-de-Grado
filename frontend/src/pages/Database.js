@@ -66,19 +66,26 @@ const Database = () => {
           await axios.post(`${API}/database/restore`, backupData, {
             headers: { Authorization: `Bearer ${token}` }
           });
-          alert('Base de datos restaurada exitosamente');
+          alert('Base de datos restaurada exitosamente. Por favor, recargue la página.');
           setRestoreFile(null);
+          // Recargar la página después de 2 segundos
+          setTimeout(() => window.location.reload(), 2000);
         } catch (error) {
           console.error('Error restoring database:', error);
-          alert('Error al restaurar la base de datos');
+          const errorMessage = error.response?.data?.detail || error.message || 'Error desconocido';
+          alert('Error al restaurar la base de datos: ' + errorMessage);
         } finally {
           setLoading(false);
         }
       };
+      reader.onerror = () => {
+        alert('Error al leer el archivo');
+        setLoading(false);
+      };
       reader.readAsText(restoreFile);
     } catch (error) {
       console.error('Error reading file:', error);
-      alert('Error al leer el archivo');
+      alert('Error al leer el archivo: ' + error.message);
       setLoading(false);
     }
   };
