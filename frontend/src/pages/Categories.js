@@ -89,6 +89,20 @@ const Categories = () => {
     setEditingCategory(null);
   };
 
+  const handleViewProducts = async (category) => {
+    try {
+      const response = await axios.get(`${API}/products`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const filtered = response.data.filter(p => p.category_id === category.id);
+      setSelectedCategory(category);
+      setCategoryProducts(filtered);
+      setShowProductsModal(true);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
   const canEdit = user?.role === 'administrador' || user?.role === 'vendedor';
 
   return (
