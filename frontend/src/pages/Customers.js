@@ -76,16 +76,34 @@ const Customers = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('¿Está seguro de eliminar este cliente?')) {
-      try {
-        await axios.delete(`${API}/customers/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        fetchCustomers();
-      } catch (error) {
-        console.error('Error deleting customer:', error);
-        alert('Error al eliminar el cliente');
+    const customer = customers.find(c => c.id === id);
+    
+    // Verificar si el cliente tiene ventas asociadas
+    try {
+      const salesResponse = await axios.get(`${API}/sales`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const customerSales = salesResponse.data.filter(s => s.customer_id === id);
+      
+      if (customerSales.length > 0) {
+        if (!window.confirm(`Este cliente tiene ${customerSales.length} venta(s) registrada(s).\n\n¿Está seguro de eliminar al cliente "${customer?.name}"?\n\nNota: Las ventas se mantendrán en el historial.`)) {
+          return;
+        }
+      } else {
+        if (!window.confirm(`¿Está seguro de eliminar al cliente "${customer?.name}"?\n\nEsta acción no se puede deshacer.`)) {
+          return;
+        }
       }
+      
+      await axios.delete(`${API}/customers/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchCustomers();
+      alert('Cliente eliminado exitosamente');
+    } catch (error) {
+      console.error('Error deleting customer:', error);
+      const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
+      alert('Error al eliminar el cliente: ' + errorMsg);
     }
   };
 
