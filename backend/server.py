@@ -1082,6 +1082,18 @@ async def backup_database(current_user: User = Depends(require_role(["administra
             'inventory_movements': await db.inventory_movements.find({}, {"_id": 0}).to_list(1000)
         }
         
+        # Convert datetime objects to strings
+        def convert_datetime(obj):
+            if isinstance(obj, dict):
+                return {k: convert_datetime(v) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [convert_datetime(item) for item in obj]
+            elif isinstance(obj, datetime):
+                return obj.isoformat()
+            return obj
+        
+        backup_data = convert_datetime(backup_data)
+        
         import json
         json_data = json.dumps(backup_data, indent=2, ensure_ascii=False)
         
