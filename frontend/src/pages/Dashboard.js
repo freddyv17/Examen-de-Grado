@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import axios from 'axios';
 import { AuthContext } from '../App';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { DollarSign, Package, Users, AlertTriangle } from 'lucide-react';
+import { DollarSign, Package, Users, AlertTriangle, X, Eye } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [salesChartData, setSalesChartData] = useState([]);
   const [topProductsData, setTopProductsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalData, setModalData] = useState({ show: false, type: '', data: [] });
 
   useEffect(() => {
     fetchData();
