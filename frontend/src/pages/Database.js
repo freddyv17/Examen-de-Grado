@@ -20,7 +20,8 @@ const Database = () => {
         responseType: 'blob'
       });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const blob = new Blob([response.data], { type: 'application/json' });
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       const filename = `backup_${new Date().toISOString().split('T')[0]}.json`;
@@ -28,10 +29,12 @@ const Database = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      window.URL.revokeObjectURL(url);
       alert('Respaldo creado exitosamente');
     } catch (error) {
       console.error('Error creating backup:', error);
-      alert('Error al crear el respaldo');
+      const errorMessage = error.response?.data?.detail || error.message || 'Error desconocido';
+      alert('Error al crear el respaldo: ' + errorMessage);
     } finally {
       setLoading(false);
     }
