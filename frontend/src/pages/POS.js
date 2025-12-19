@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Layout from '../components/Layout';
+import Receipt from '../components/Receipt';
 import axios from 'axios';
 import { AuthContext } from '../App';
 import { Plus, Minus, Trash2, Search, ShoppingCart } from 'lucide-react';
@@ -17,6 +18,8 @@ const POS = () => {
   const [paymentMethod, setPaymentMethod] = useState('efectivo');
   const [discount, setDiscount] = useState(0);
   const [tax, setTax] = useState(0);
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [lastSale, setLastSale] = useState(null);
 
   useEffect(() => {
     fetchProducts();
