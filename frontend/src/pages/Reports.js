@@ -20,16 +20,23 @@ const Reports = () => {
         responseType: 'blob'
       });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Crear un blob y descargarlo
+      const blob = new Blob([response.data], { 
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+      });
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
       link.remove();
+      window.URL.revokeObjectURL(url);
+      
+      alert('Reporte descargado exitosamente');
     } catch (error) {
       console.error('Error downloading report:', error);
-      alert('Error al descargar el reporte');
+      alert('Error al descargar el reporte: ' + (error.response?.data?.detail || error.message));
     } finally {
       setLoading(null);
     }
