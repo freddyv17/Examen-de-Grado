@@ -55,7 +55,9 @@ const Layout = ({ children }) => {
       >
         <div className="flex items-center justify-between p-4 border-b border-emerald-600">
           <div className="flex items-center space-x-3">
-            <img src="/logo.png" alt="Maribel Farmacia" className="h-10 w-10 object-contain" />
+            <div className="bg-white p-2 rounded-lg">
+              <img src="/logo.png" alt="Maribel Farmacia" className="h-10 w-10 object-contain" />
+            </div>
             <span className="text-xl font-bold">Maribel Farmacia</span>
           </div>
           <button className="lg:hidden" onClick={() => setSidebarOpen(false)}>
