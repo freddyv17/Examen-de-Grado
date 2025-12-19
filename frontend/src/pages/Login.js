@@ -33,10 +33,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-100 p-4">
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl" data-testid="login-form">
         <div className="text-center">
-          <img src="/logo.png" alt="Maribel Farmacia" className="mx-auto h-24 w-auto" data-testid="logo" />
+          <div className="mx-auto h-28 w-28 bg-white rounded-full flex items-center justify-center shadow-lg mb-4">
+            <img src="/logo.png" alt="Maribel Farmacia" className="h-24 w-24 object-contain" data-testid="logo" />
+          </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Maribel Farmacia</h2>
           <p className="mt-2 text-sm text-gray-600">Sistema de Inventario y Facturación</p>
         </div>
