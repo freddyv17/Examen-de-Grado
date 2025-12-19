@@ -125,14 +125,23 @@ const Categories = () => {
         {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
-            <div key={category.id} className="bg-white rounded-lg shadow-md p-6" data-testid={`category-card-${category.id}`}>
+            <div 
+              key={category.id} 
+              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer" 
+              data-testid={`category-card-${category.id}`}
+              onClick={() => handleViewProducts(category)}
+            >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{category.name}</h3>
                   <p className="text-gray-600 text-sm">{category.description}</p>
+                  <div className="mt-3 flex items-center text-sm text-blue-600">
+                    <Eye size={16} className="mr-1" />
+                    <span>Click para ver productos</span>
+                  </div>
                 </div>
                 {canEdit && (
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={() => handleEdit(category)}
                       className="text-blue-600 hover:text-blue-900"
