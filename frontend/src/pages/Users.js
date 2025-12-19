@@ -78,16 +78,44 @@ const Users = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('¿Está seguro de eliminar este usuario?')) {
-      try {
-        await axios.delete(`${API}/users/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        fetchUsers();
-      } catch (error) {
-        console.error('Error deleting user:', error);
-        alert('Error al eliminar el usuario');
+    const user = users.find(u => u.id === id);
+    
+    // No permitir eliminar tu propio usuario
+    const currentUserData = await axios.get(`${API}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(res => res.data);
+    
+    if (currentUserData.id === id) {
+      alert('No puedes eliminar tu propio usuario mientras estés conectado.');
+      return;
+    }
+    
+    // Verificar si el usuario tiene ventas registradas
+    try {
+      const salesResponse = await axios.get(`${API}/sales`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const userSales = salesResponse.data.filter(s => s.user_id === id);
+      
+      if (userSales.length > 0) {
+        if (!window.confirm(`Este usuario tiene ${userSales.length} venta(s) registrada(s).\n\n¿Está seguro de eliminar al usuario "${user?.full_name}" (@${user?.username})?\n\nNota: Las ventas se mantendrán en el historial.`)) {
+          return;
+        }
+      } else {
+        if (!window.confirm(`¿Está seguro de eliminar al usuario "${user?.full_name}" (@${user?.username})?\n\nEsta acción no se puede deshacer.`)) {
+          return;
+        }
       }
+      
+      await axios.delete(`${API}/users/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchUsers();
+      alert('Usuario eliminado exitosamente');
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
+      alert('Error al eliminar el usuario: ' + errorMsg);
     }
   };
 
