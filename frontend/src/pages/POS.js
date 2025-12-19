@@ -318,6 +318,17 @@ const POS = () => {
           </div>
         </div>
       </div>
+
+      {/* Receipt Modal */}
+      {showReceipt && lastSale && (
+        <Receipt 
+          sale={lastSale} 
+          onClose={() => {
+            setShowReceipt(false);
+            setLastSale(null);
+          }} 
+        />
+      )}
     </Layout>
   );
 };
