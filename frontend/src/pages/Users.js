@@ -80,31 +80,32 @@ const Users = () => {
   const handleDelete = async (id) => {
     const user = users.find(u => u.id === id);
     
-    // No permitir eliminar tu propio usuario
-    const currentUserData = await axios.get(`${API}/auth/me`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then(res => res.data);
-    
-    if (currentUserData.id === id) {
-      alert('No puedes eliminar tu propio usuario mientras estés conectado.');
-      return;
-    }
-    
-    // Verificar si el usuario tiene ventas registradas
     try {
+      // Verificar si es el usuario actual
+      const currentUserData = await axios.get(`${API}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (currentUserData.data.id === id) {
+        alert('No puedes eliminar tu propio usuario mientras estés conectado.');
+        return;
+      }
+      
+      // Verificar si el usuario tiene ventas registradas
       const salesResponse = await axios.get(`${API}/sales`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const userSales = salesResponse.data.filter(s => s.user_id === id);
       
+      let confirmMessage = '';
       if (userSales.length > 0) {
-        if (!window.confirm(`Este usuario tiene ${userSales.length} venta(s) registrada(s).\n\n¿Está seguro de eliminar al usuario "${user?.full_name}" (@${user?.username})?\n\nNota: Las ventas se mantendrán en el historial.`)) {
-          return;
-        }
+        confirmMessage = `Este usuario tiene ${userSales.length} venta(s) registrada(s).\n\n¿Está seguro de eliminar al usuario "${user?.full_name}" (@${user?.username})?\n\nNota: Las ventas se mantendrán en el historial.`;
       } else {
-        if (!window.confirm(`¿Está seguro de eliminar al usuario "${user?.full_name}" (@${user?.username})?\n\nEsta acción no se puede deshacer.`)) {
-          return;
-        }
+        confirmMessage = `¿Está seguro de eliminar al usuario "${user?.full_name}" (@${user?.username})?\n\nEsta acción no se puede deshacer.`;
+      }
+      
+      if (!window.confirm(confirmMessage)) {
+        return;
       }
       
       await axios.delete(`${API}/users/${id}`, {
