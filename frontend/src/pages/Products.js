@@ -276,7 +276,7 @@ const Products = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              handleDelete(product.id);
+                              openDeleteModal(product);
                             }}
                             className="text-red-600 hover:text-red-900"
                             data-testid={`delete-product-${product.id}`}
@@ -292,6 +292,17 @@ const Products = () => {
             </table>
           </div>
         </div>
+
+        {/* Delete Confirmation Modal */}
+        <DeleteConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={closeDeleteModal}
+          onConfirm={handleDelete}
+          title="Eliminar Producto"
+          itemName={deleteModal.product?.name}
+          itemType="producto"
+          isDeleting={isDeleting}
+        />
 
         {/* Modal */}
         {showModal && (
