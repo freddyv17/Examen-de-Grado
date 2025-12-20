@@ -180,7 +180,7 @@ const Categories = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          handleDelete(category.id);
+                          openDeleteModal(category);
                         }}
                         className="text-red-600 hover:text-red-900"
                         data-testid={`delete-category-${category.id}`}
@@ -194,6 +194,18 @@ const Categories = () => {
             </div>
           ))}
         </div>
+
+        {/* Delete Confirmation Modal */}
+        <DeleteConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={closeDeleteModal}
+          onConfirm={handleDelete}
+          title="Eliminar Categoría"
+          itemName={deleteModal.category?.name}
+          itemType="categoría"
+          warningMessage={deleteModal.productsCount > 0 ? `Esta categoría tiene ${deleteModal.productsCount} producto(s) asociado(s). Los productos no se eliminarán, pero quedarán sin categoría.` : null}
+          isDeleting={isDeleting}
+        />
 
         {/* Modal */}
         {showModal && (
