@@ -73,36 +73,39 @@ const Categories = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    const category = categories.find(c => c.id === id);
-    
+  const openDeleteModal = async (category) => {
     try {
-      // Verificar si hay productos en esta categoría
       const productsResponse = await axios.get(`${API}/products`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      const productsInCategory = productsResponse.data.filter(p => p.category_id === id);
-      
-      let confirmMessage = '';
-      if (productsInCategory.length > 0) {
-        confirmMessage = `Esta categoría tiene ${productsInCategory.length} producto(s) asociado(s).\n\n¿Está seguro de eliminar la categoría "${category?.name}"?\n\nNota: Los productos no se eliminarán, pero quedarán sin categoría.`;
-      } else {
-        confirmMessage = `¿Está seguro de eliminar la categoría "${category?.name}"?\n\nEsta acción no se puede deshacer.`;
-      }
-      
-      if (!window.confirm(confirmMessage)) {
-        return;
-      }
-      
-      await axios.delete(`${API}/categories/${id}`, {
+      const productsInCategory = productsResponse.data.filter(p => p.category_id === category.id);
+      setDeleteModal({ isOpen: true, category, productsCount: productsInCategory.length });
+    } catch (error) {
+      console.error('Error checking products:', error);
+      setDeleteModal({ isOpen: true, category, productsCount: 0 });
+    }
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, category: null, productsCount: 0 });
+    setIsDeleting(false);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteModal.category) return;
+    
+    setIsDeleting(true);
+    try {
+      await axios.delete(`${API}/categories/${deleteModal.category.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchCategories();
-      alert('Categoría eliminada exitosamente');
+      closeDeleteModal();
     } catch (error) {
       console.error('Error deleting category:', error);
       const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
       alert('Error al eliminar la categoría: ' + errorMsg);
+      setIsDeleting(false);
     }
   };
 
