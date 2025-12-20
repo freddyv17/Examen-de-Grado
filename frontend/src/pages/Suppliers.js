@@ -163,7 +163,7 @@ const Suppliers = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          handleDelete(supplier.id);
+                          openDeleteModal(supplier);
                         }}
                         className="text-red-600 hover:text-red-900"
                         data-testid={`delete-supplier-${supplier.id}`}
@@ -195,6 +195,18 @@ const Suppliers = () => {
             </div>
           ))}
         </div>
+
+        {/* Delete Confirmation Modal */}
+        <DeleteConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={closeDeleteModal}
+          onConfirm={handleDelete}
+          title="Eliminar Proveedor"
+          itemName={deleteModal.supplier?.name}
+          itemType="proveedor"
+          warningMessage={deleteModal.productsCount > 0 ? `Este proveedor tiene ${deleteModal.productsCount} producto(s) asociado(s). Los productos no se eliminarán, pero quedarán sin proveedor.` : null}
+          isDeleting={isDeleting}
+        />
 
         {/* Modal */}
         {showModal && (
