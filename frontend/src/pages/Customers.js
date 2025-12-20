@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Layout from '../components/Layout';
+import DeleteConfirmModal from '../components/DeleteConfirmModal';
 import axios from 'axios';
 import { AuthContext } from '../App';
 import { Plus, Edit, Trash2, Mail, Phone, MapPin } from 'lucide-react';
@@ -12,6 +13,8 @@ const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState(null);
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, customer: null, salesCount: 0 });
+  const [isDeleting, setIsDeleting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',

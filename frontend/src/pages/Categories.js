@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Layout from '../components/Layout';
+import DeleteConfirmModal from '../components/DeleteConfirmModal';
 import axios from 'axios';
 import { AuthContext } from '../App';
 import { Plus, Edit, Trash2, Eye, X } from 'lucide-react';
@@ -15,6 +16,8 @@ const Categories = () => {
   const [showProductsModal, setShowProductsModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categoryProducts, setCategoryProducts] = useState([]);
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, category: null, productsCount: 0 });
+  const [isDeleting, setIsDeleting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: ''
