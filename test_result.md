@@ -74,51 +74,63 @@ backend:
 
   - task: "DELETE /api/categories/{id} - Solo admin puede eliminar"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Endpoint protegido con require_role(['administrador']) - necesita testing"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Admin puede eliminar (200), consulta/vendedor reciben 403. Endpoint funciona correctamente."
 
   - task: "DELETE /api/suppliers/{id} - Solo admin puede eliminar"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Endpoint protegido con require_role(['administrador']) - necesita testing"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Admin puede eliminar (200), consulta/vendedor reciben 403. Endpoint funciona correctamente."
 
   - task: "DELETE /api/customers/{id} - Solo admin puede eliminar"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Endpoint protegido con require_role(['administrador']) - necesita testing"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Admin puede eliminar (200), consulta/vendedor reciben 403. Endpoint funciona correctamente."
 
   - task: "DELETE /api/users/{id} - Solo admin puede eliminar"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Endpoint protegido con require_role(['administrador']) - necesita testing"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Admin puede eliminar (200), consulta/vendedor reciben 403. Endpoint funciona correctamente."
 
 frontend:
   - task: "Botón eliminar productos solo visible para admin"
