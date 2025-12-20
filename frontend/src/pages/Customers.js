@@ -164,7 +164,7 @@ const Customers = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          handleDelete(customer.id);
+                          openDeleteModal(customer);
                         }}
                         className="text-red-600 hover:text-red-900"
                         data-testid={`delete-customer-${customer.id}`}
@@ -196,6 +196,18 @@ const Customers = () => {
             </div>
           ))}
         </div>
+
+        {/* Delete Confirmation Modal */}
+        <DeleteConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={closeDeleteModal}
+          onConfirm={handleDelete}
+          title="Eliminar Cliente"
+          itemName={deleteModal.customer?.name}
+          itemType="cliente"
+          warningMessage={deleteModal.salesCount > 0 ? `Este cliente tiene ${deleteModal.salesCount} venta(s) registrada(s). Las ventas se mantendrán en el historial.` : null}
+          isDeleting={isDeleting}
+        />
 
         {/* Modal */}
         {showModal && (
