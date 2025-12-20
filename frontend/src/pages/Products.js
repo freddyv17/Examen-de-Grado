@@ -261,7 +261,12 @@ const Products = () => {
                         </button>
                         {user?.role === 'administrador' && (
                           <button
-                            onClick={() => handleDelete(product.id)}
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleDelete(product.id);
+                            }}
                             className="text-red-600 hover:text-red-900"
                             data-testid={`delete-product-${product.id}`}
                           >
