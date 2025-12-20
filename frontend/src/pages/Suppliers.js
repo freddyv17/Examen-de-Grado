@@ -76,36 +76,39 @@ const Suppliers = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    const supplier = suppliers.find(s => s.id === id);
-    
+  const openDeleteModal = async (supplier) => {
     try {
-      // Verificar si hay productos de este proveedor
       const productsResponse = await axios.get(`${API}/products`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      const productsFromSupplier = productsResponse.data.filter(p => p.supplier_id === id);
-      
-      let confirmMessage = '';
-      if (productsFromSupplier.length > 0) {
-        confirmMessage = `Este proveedor tiene ${productsFromSupplier.length} producto(s) asociado(s).\n\n¿Está seguro de eliminar al proveedor "${supplier?.name}"?\n\nNota: Los productos no se eliminarán, pero quedarán sin proveedor.`;
-      } else {
-        confirmMessage = `¿Está seguro de eliminar al proveedor "${supplier?.name}"?\n\nEsta acción no se puede deshacer.`;
-      }
-      
-      if (!window.confirm(confirmMessage)) {
-        return;
-      }
-      
-      await axios.delete(`${API}/suppliers/${id}`, {
+      const productsFromSupplier = productsResponse.data.filter(p => p.supplier_id === supplier.id);
+      setDeleteModal({ isOpen: true, supplier, productsCount: productsFromSupplier.length });
+    } catch (error) {
+      console.error('Error checking products:', error);
+      setDeleteModal({ isOpen: true, supplier, productsCount: 0 });
+    }
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, supplier: null, productsCount: 0 });
+    setIsDeleting(false);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteModal.supplier) return;
+    
+    setIsDeleting(true);
+    try {
+      await axios.delete(`${API}/suppliers/${deleteModal.supplier.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchSuppliers();
-      alert('Proveedor eliminado exitosamente');
+      closeDeleteModal();
     } catch (error) {
       console.error('Error deleting supplier:', error);
       const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
       alert('Error al eliminar el proveedor: ' + errorMsg);
+      setIsDeleting(false);
     }
   };
 
