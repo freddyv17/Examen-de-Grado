@@ -217,7 +217,7 @@ metadata:
 test_plan:
   current_focus:
     - "DELETE endpoints - verificar que solo admin puede eliminar" # ✅ COMPLETED
-    - "Botones eliminar - verificar visibilidad según rol" # Frontend testing not performed per instructions
+    - "Botones eliminar - verificar visibilidad según rol" # ✅ COMPLETED - All frontend delete button visibility tests passed
     - "Funcionalidad completa de eliminación como admin" # ✅ COMPLETED
   stuck_tasks: []
   test_all: false
