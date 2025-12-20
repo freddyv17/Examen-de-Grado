@@ -170,7 +170,12 @@ const Categories = () => {
                     </button>
                     {user?.role === 'administrador' && (
                       <button
-                        onClick={() => handleDelete(category.id)}
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDelete(category.id);
+                        }}
                         className="text-red-600 hover:text-red-900"
                         data-testid={`delete-category-${category.id}`}
                       >

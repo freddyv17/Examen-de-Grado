@@ -153,7 +153,12 @@ const Suppliers = () => {
                     </button>
                     {user?.role === 'administrador' && (
                       <button
-                        onClick={() => handleDelete(supplier.id)}
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDelete(supplier.id);
+                        }}
                         className="text-red-600 hover:text-red-900"
                         data-testid={`delete-supplier-${supplier.id}`}
                       >

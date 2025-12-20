@@ -184,7 +184,12 @@ const Users = () => {
                     </button>
                     {currentUser?.role === 'administrador' && (
                       <button 
-                        onClick={() => handleDelete(user.id)} 
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDelete(user.id);
+                        }}
                         className="text-red-600 hover:text-red-900"
                         data-testid={`delete-user-${user.id}`}
                       >

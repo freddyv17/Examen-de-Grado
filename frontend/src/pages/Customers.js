@@ -154,7 +154,12 @@ const Customers = () => {
                     </button>
                     {user?.role === 'administrador' && (
                       <button
-                        onClick={() => handleDelete(customer.id)}
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDelete(customer.id);
+                        }}
                         className="text-red-600 hover:text-red-900"
                         data-testid={`delete-customer-${customer.id}`}
                       >
