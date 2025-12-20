@@ -182,7 +182,12 @@ const Users = () => {
                     <button onClick={() => handleEdit(user)} className="text-blue-600 hover:text-blue-900 mr-4" data-testid={`edit-user-${user.id}`}>
                       <Edit size={18} />
                     </button>
-                    <button onClick={() => handleDelete(user.id)} className="text-red-600 hover:text-red-900" data-testid={`delete-user-${user.id}`}>
+                    <button 
+                      onClick={() => handleDelete(user.id)} 
+                      className="text-red-600 hover:text-red-900"
+                      data-testid={`delete-user-${user.id}`}
+                      title="Solo administradores pueden eliminar"
+                    >
                       <Trash2 size={18} />
                     </button>
                   </td>
