@@ -122,21 +122,29 @@ const Products = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    const product = products.find(p => p.id === id);
-    if (!window.confirm(`¿Está seguro de eliminar el producto "${product?.name}"?`)) {
-      return;
-    }
+  const openDeleteModal = (product) => {
+    setDeleteModal({ isOpen: true, product });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, product: null });
+    setIsDeleting(false);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteModal.product) return;
     
+    setIsDeleting(true);
     try {
-      await axios.delete(`${API}/products/${id}`, {
+      await axios.delete(`${API}/products/${deleteModal.product.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      alert('Producto eliminado exitosamente');
       fetchProducts();
+      closeDeleteModal();
     } catch (error) {
       console.error('Error deleting product:', error);
       alert('Error al eliminar el producto: ' + (error.response?.data?.detail || error.message));
+      setIsDeleting(false);
     }
   };
 
