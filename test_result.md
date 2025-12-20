@@ -243,3 +243,5 @@ test_instructions: |
 agent_communication:
   - agent: "testing"
     message: "✅ BACKEND DELETE TESTING COMPLETED: All 5 DELETE endpoints tested successfully. Admin users can delete (200 responses), non-admin users receive 403 Forbidden as expected. Created comprehensive backend_test.py with 20 test cases - all passed. DELETE functionality is working correctly for products, categories, suppliers, customers, and users."
+  - agent: "testing"
+    message: "✅ FRONTEND DELETE BUTTON VISIBILITY TESTING COMPLETED: Comprehensive UI testing performed with Playwright across all user roles. ADMIN: All delete buttons visible (Products:7, Categories:6, Suppliers:3, Customers:3, Users:4). VENDEDOR: No delete buttons visible, only edit buttons (Products:7, Categories:6). CONSULTA: No edit or delete buttons visible, read-only access confirmed. Role-based UI permissions working perfectly."
