@@ -78,36 +78,39 @@ const Customers = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    const customer = customers.find(c => c.id === id);
-    
+  const openDeleteModal = async (customer) => {
     try {
-      // Verificar si el cliente tiene ventas asociadas
       const salesResponse = await axios.get(`${API}/sales`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      const customerSales = salesResponse.data.filter(s => s.customer_id === id);
-      
-      let confirmMessage = '';
-      if (customerSales.length > 0) {
-        confirmMessage = `Este cliente tiene ${customerSales.length} venta(s) registrada(s).\n\n¿Está seguro de eliminar al cliente "${customer?.name}"?\n\nNota: Las ventas se mantendrán en el historial.`;
-      } else {
-        confirmMessage = `¿Está seguro de eliminar al cliente "${customer?.name}"?\n\nEsta acción no se puede deshacer.`;
-      }
-      
-      if (!window.confirm(confirmMessage)) {
-        return;
-      }
-      
-      await axios.delete(`${API}/customers/${id}`, {
+      const customerSales = salesResponse.data.filter(s => s.customer_id === customer.id);
+      setDeleteModal({ isOpen: true, customer, salesCount: customerSales.length });
+    } catch (error) {
+      console.error('Error checking sales:', error);
+      setDeleteModal({ isOpen: true, customer, salesCount: 0 });
+    }
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, customer: null, salesCount: 0 });
+    setIsDeleting(false);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteModal.customer) return;
+    
+    setIsDeleting(true);
+    try {
+      await axios.delete(`${API}/customers/${deleteModal.customer.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchCustomers();
-      alert('Cliente eliminado exitosamente');
+      closeDeleteModal();
     } catch (error) {
       console.error('Error deleting customer:', error);
       const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
       alert('Error al eliminar el cliente: ' + errorMsg);
+      setIsDeleting(false);
     }
   };
 
