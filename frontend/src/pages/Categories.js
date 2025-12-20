@@ -73,21 +73,22 @@ const Categories = () => {
   const handleDelete = async (id) => {
     const category = categories.find(c => c.id === id);
     
-    // Verificar si hay productos en esta categoría
     try {
+      // Verificar si hay productos en esta categoría
       const productsResponse = await axios.get(`${API}/products`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const productsInCategory = productsResponse.data.filter(p => p.category_id === id);
       
+      let confirmMessage = '';
       if (productsInCategory.length > 0) {
-        if (!window.confirm(`Esta categoría tiene ${productsInCategory.length} producto(s) asociado(s).\n\n¿Está seguro de eliminar la categoría "${category?.name}"?\n\nNota: Los productos no se eliminarán, pero quedarán sin categoría.`)) {
-          return;
-        }
+        confirmMessage = `Esta categoría tiene ${productsInCategory.length} producto(s) asociado(s).\n\n¿Está seguro de eliminar la categoría "${category?.name}"?\n\nNota: Los productos no se eliminarán, pero quedarán sin categoría.`;
       } else {
-        if (!window.confirm(`¿Está seguro de eliminar la categoría "${category?.name}"?\n\nEsta acción no se puede deshacer.`)) {
-          return;
-        }
+        confirmMessage = `¿Está seguro de eliminar la categoría "${category?.name}"?\n\nEsta acción no se puede deshacer.`;
+      }
+      
+      if (!window.confirm(confirmMessage)) {
+        return;
       }
       
       await axios.delete(`${API}/categories/${id}`, {
