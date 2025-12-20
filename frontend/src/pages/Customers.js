@@ -78,21 +78,22 @@ const Customers = () => {
   const handleDelete = async (id) => {
     const customer = customers.find(c => c.id === id);
     
-    // Verificar si el cliente tiene ventas asociadas
     try {
+      // Verificar si el cliente tiene ventas asociadas
       const salesResponse = await axios.get(`${API}/sales`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const customerSales = salesResponse.data.filter(s => s.customer_id === id);
       
+      let confirmMessage = '';
       if (customerSales.length > 0) {
-        if (!window.confirm(`Este cliente tiene ${customerSales.length} venta(s) registrada(s).\n\n¿Está seguro de eliminar al cliente "${customer?.name}"?\n\nNota: Las ventas se mantendrán en el historial.`)) {
-          return;
-        }
+        confirmMessage = `Este cliente tiene ${customerSales.length} venta(s) registrada(s).\n\n¿Está seguro de eliminar al cliente "${customer?.name}"?\n\nNota: Las ventas se mantendrán en el historial.`;
       } else {
-        if (!window.confirm(`¿Está seguro de eliminar al cliente "${customer?.name}"?\n\nEsta acción no se puede deshacer.`)) {
-          return;
-        }
+        confirmMessage = `¿Está seguro de eliminar al cliente "${customer?.name}"?\n\nEsta acción no se puede deshacer.`;
+      }
+      
+      if (!window.confirm(confirmMessage)) {
+        return;
       }
       
       await axios.delete(`${API}/customers/${id}`, {
