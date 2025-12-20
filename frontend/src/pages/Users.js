@@ -194,7 +194,7 @@ const Users = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          handleDelete(user.id);
+                          openDeleteModal(user);
                         }}
                         className="text-red-600 hover:text-red-900"
                         data-testid={`delete-user-${user.id}`}
@@ -208,6 +208,18 @@ const Users = () => {
             </tbody>
           </table>
         </div>
+
+        {/* Delete Confirmation Modal */}
+        <DeleteConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={closeDeleteModal}
+          onConfirm={handleDelete}
+          title="Eliminar Usuario"
+          itemName={deleteModal.user ? `${deleteModal.user.full_name} (@${deleteModal.user.username})` : ''}
+          itemType="usuario"
+          warningMessage={deleteModal.salesCount > 0 ? `Este usuario tiene ${deleteModal.salesCount} venta(s) registrada(s). Las ventas se mantendrán en el historial.` : null}
+          isDeleting={isDeleting}
+        />
 
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" data-testid="user-modal">
