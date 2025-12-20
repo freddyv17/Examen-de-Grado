@@ -80,46 +80,49 @@ const Users = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    const user = users.find(u => u.id === id);
-    
+  const openDeleteModal = async (user) => {
     try {
       // Verificar si es el usuario actual
       const currentUserData = await axios.get(`${API}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      if (currentUserData.data.id === id) {
+      if (currentUserData.data.id === user.id) {
         alert('No puedes eliminar tu propio usuario mientras estés conectado.');
         return;
       }
       
-      // Verificar si el usuario tiene ventas registradas
       const salesResponse = await axios.get(`${API}/sales`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      const userSales = salesResponse.data.filter(s => s.user_id === id);
-      
-      let confirmMessage = '';
-      if (userSales.length > 0) {
-        confirmMessage = `Este usuario tiene ${userSales.length} venta(s) registrada(s).\n\n¿Está seguro de eliminar al usuario "${user?.full_name}" (@${user?.username})?\n\nNota: Las ventas se mantendrán en el historial.`;
-      } else {
-        confirmMessage = `¿Está seguro de eliminar al usuario "${user?.full_name}" (@${user?.username})?\n\nEsta acción no se puede deshacer.`;
-      }
-      
-      if (!window.confirm(confirmMessage)) {
-        return;
-      }
-      
-      await axios.delete(`${API}/users/${id}`, {
+      const userSales = salesResponse.data.filter(s => s.user_id === user.id);
+      setDeleteModal({ isOpen: true, user, salesCount: userSales.length });
+    } catch (error) {
+      console.error('Error checking data:', error);
+      setDeleteModal({ isOpen: true, user, salesCount: 0 });
+    }
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, user: null, salesCount: 0 });
+    setIsDeleting(false);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteModal.user) return;
+    
+    setIsDeleting(true);
+    try {
+      await axios.delete(`${API}/users/${deleteModal.user.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchUsers();
-      alert('Usuario eliminado exitosamente');
+      closeDeleteModal();
     } catch (error) {
       console.error('Error deleting user:', error);
       const errorMsg = error.response?.data?.detail || error.message || 'Error desconocido';
       alert('Error al eliminar el usuario: ' + errorMsg);
+      setIsDeleting(false);
     }
   };
 
