@@ -155,7 +155,7 @@ const Dashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Ventas Hoy</p>
-                <p className="text-3xl font-bold text-gray-900">${stats?.total_sales_today?.toFixed(2)}</p>
+                <p className="text-3xl font-bold text-gray-900">C${stats?.total_sales_today?.toFixed(2)}</p>
                 <p className="text-sm text-gray-500 mt-1">{stats?.sales_count_today} ventas</p>
               </div>
               <div className="bg-emerald-100 p-3 rounded-full">
@@ -282,7 +282,7 @@ const Dashboard = () => {
               className="border-l-4 border-emerald-500 pl-4 cursor-pointer hover:bg-gray-50 py-2 rounded transition-colors"
             >
               <p className="text-sm font-medium text-gray-600">Total Ventas del Mes</p>
-              <p className="text-2xl font-bold text-gray-900">${stats?.total_sales_month?.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-gray-900">C${stats?.total_sales_month?.toFixed(2)}</p>
               <p className="text-xs text-blue-600 mt-1 flex items-center">
                 <Eye size={12} className="mr-1" />
                 Click para detalles
@@ -337,7 +337,7 @@ const Dashboard = () => {
                               <p className="font-semibold text-gray-900">Venta #{sale.id.substring(0, 8)}</p>
                               <p className="text-sm text-gray-600">{formatDate(sale.created_at)}</p>
                             </div>
-                            <p className="text-xl font-bold text-emerald-600">${sale.total.toFixed(2)}</p>
+                            <p className="text-xl font-bold text-emerald-600">C${sale.total.toFixed(2)}</p>
                           </div>
                           <div className="grid grid-cols-2 gap-2 text-sm">
                             <p><span className="font-medium">Cliente:</span> {sale.customer_name}</p>
@@ -375,7 +375,7 @@ const Dashboard = () => {
                                 <p className="font-medium text-gray-900">{product.name}</p>
                                 <p className="text-sm text-gray-500">{product.description}</p>
                               </td>
-                              <td className="px-4 py-3 text-gray-900">${product.price.toFixed(2)}</td>
+                              <td className="px-4 py-3 text-gray-900">C${product.price.toFixed(2)}</td>
                               <td className="px-4 py-3 text-gray-900">{product.stock}</td>
                               <td className="px-4 py-3 text-gray-900">{product.min_stock}</td>
                               <td className="px-4 py-3">
