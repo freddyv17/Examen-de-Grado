@@ -372,8 +372,10 @@ async def create_category(
 async def get_categories(current_user: User = Depends(get_current_user)):
     categories = await db.categories.find({}, {"_id": 0}).to_list(1000)
     for cat in categories:
-        if isinstance(cat['created_at'], str):
+        if 'created_at' in cat and isinstance(cat['created_at'], str):
             cat['created_at'] = datetime.fromisoformat(cat['created_at'])
+        elif 'created_at' not in cat:
+            cat['created_at'] = datetime.now(timezone.utc)
     return categories
 
 @api_router.get("/categories/{category_id}", response_model=Category)
@@ -381,8 +383,10 @@ async def get_category(category_id: str, current_user: User = Depends(get_curren
     category = await db.categories.find_one({"id": category_id}, {"_id": 0})
     if not category:
         raise HTTPException(status_code=404, detail="Category not found")
-    if isinstance(category['created_at'], str):
+    if 'created_at' in category and isinstance(category['created_at'], str):
         category['created_at'] = datetime.fromisoformat(category['created_at'])
+    elif 'created_at' not in category:
+        category['created_at'] = datetime.now(timezone.utc)
     return category
 
 @api_router.put("/categories/{category_id}", response_model=Category)
