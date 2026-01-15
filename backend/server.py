@@ -576,8 +576,10 @@ async def create_customer(
 async def get_customers(current_user: User = Depends(get_current_user)):
     customers = await db.customers.find({}, {"_id": 0}).to_list(1000)
     for cust in customers:
-        if isinstance(cust['created_at'], str):
+        if 'created_at' in cust and isinstance(cust['created_at'], str):
             cust['created_at'] = datetime.fromisoformat(cust['created_at'])
+        elif 'created_at' not in cust:
+            cust['created_at'] = datetime.now(timezone.utc)
     return customers
 
 @api_router.get("/customers/{customer_id}", response_model=Customer)
@@ -585,8 +587,10 @@ async def get_customer(customer_id: str, current_user: User = Depends(get_curren
     customer = await db.customers.find_one({"id": customer_id}, {"_id": 0})
     if not customer:
         raise HTTPException(status_code=404, detail="Customer not found")
-    if isinstance(customer['created_at'], str):
+    if 'created_at' in customer and isinstance(customer['created_at'], str):
         customer['created_at'] = datetime.fromisoformat(customer['created_at'])
+    elif 'created_at' not in customer:
+        customer['created_at'] = datetime.now(timezone.utc)
     return customer
 
 @api_router.put("/customers/{customer_id}", response_model=Customer)
@@ -603,8 +607,10 @@ async def update_customer(
     await db.customers.update_one({"id": customer_id}, {"$set": update_data})
     customer.update(update_data)
     
-    if isinstance(customer['created_at'], str):
+    if 'created_at' in customer and isinstance(customer['created_at'], str):
         customer['created_at'] = datetime.fromisoformat(customer['created_at'])
+    elif 'created_at' not in customer:
+        customer['created_at'] = datetime.now(timezone.utc)
     return customer
 
 @api_router.delete("/customers/{customer_id}")
