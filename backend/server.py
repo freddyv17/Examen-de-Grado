@@ -500,8 +500,10 @@ async def create_product(
 async def get_products(current_user: User = Depends(get_current_user)):
     products = await db.products.find({}, {"_id": 0}).to_list(1000)
     for prod in products:
-        if isinstance(prod['created_at'], str):
+        if 'created_at' in prod and isinstance(prod['created_at'], str):
             prod['created_at'] = datetime.fromisoformat(prod['created_at'])
+        elif 'created_at' not in prod:
+            prod['created_at'] = datetime.now(timezone.utc)
         if prod.get('expiration_date') and isinstance(prod['expiration_date'], str):
             prod['expiration_date'] = datetime.fromisoformat(prod['expiration_date'])
     return products
@@ -511,8 +513,10 @@ async def get_product(product_id: str, current_user: User = Depends(get_current_
     product = await db.products.find_one({"id": product_id}, {"_id": 0})
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    if isinstance(product['created_at'], str):
+    if 'created_at' in product and isinstance(product['created_at'], str):
         product['created_at'] = datetime.fromisoformat(product['created_at'])
+    elif 'created_at' not in product:
+        product['created_at'] = datetime.now(timezone.utc)
     if product.get('expiration_date') and isinstance(product['expiration_date'], str):
         product['expiration_date'] = datetime.fromisoformat(product['expiration_date'])
     return product
@@ -535,8 +539,10 @@ async def update_product(
         await db.products.update_one({"id": product_id}, {"$set": update_data})
         product.update(update_data)
     
-    if isinstance(product['created_at'], str):
+    if 'created_at' in product and isinstance(product['created_at'], str):
         product['created_at'] = datetime.fromisoformat(product['created_at'])
+    elif 'created_at' not in product:
+        product['created_at'] = datetime.now(timezone.utc)
     if product.get('expiration_date') and isinstance(product['expiration_date'], str):
         product['expiration_date'] = datetime.fromisoformat(product['expiration_date'])
     return product
