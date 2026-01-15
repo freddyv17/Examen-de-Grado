@@ -403,8 +403,10 @@ async def update_category(
     await db.categories.update_one({"id": category_id}, {"$set": update_data})
     category.update(update_data)
     
-    if isinstance(category['created_at'], str):
+    if 'created_at' in category and isinstance(category['created_at'], str):
         category['created_at'] = datetime.fromisoformat(category['created_at'])
+    elif 'created_at' not in category:
+        category['created_at'] = datetime.now(timezone.utc)
     return category
 
 @api_router.delete("/categories/{category_id}")
