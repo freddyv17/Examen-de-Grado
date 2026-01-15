@@ -80,7 +80,7 @@ const Sales = () => {
                       {sale.user_name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                      ${sale.total.toFixed(2)}
+                      C${sale.total.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
                       {sale.payment_method}
@@ -139,10 +139,10 @@ const Sales = () => {
                         <div className="flex-1">
                           <p className="font-medium">{detail.product_name}</p>
                           <p className="text-sm text-gray-600">
-                            {detail.quantity} x ${detail.unit_price.toFixed(2)}
+                            {detail.quantity} x C${detail.unit_price.toFixed(2)}
                           </p>
                         </div>
-                        <p className="font-semibold">${detail.subtotal.toFixed(2)}</p>
+                        <p className="font-semibold">C${detail.subtotal.toFixed(2)}</p>
                       </div>
                     ))}
                   </div>
@@ -151,7 +151,7 @@ const Sales = () => {
                 <div className="border-t pt-4 space-y-2">
                   <div className="flex justify-between">
                     <span>Subtotal:</span>
-                    <span className="font-semibold">${selectedSale.subtotal.toFixed(2)}</span>
+                    <span className="font-semibold">C${selectedSale.subtotal.toFixed(2)}</span>
                   </div>
                   {selectedSale.tax > 0 && (
                     <div className="flex justify-between">
@@ -167,7 +167,7 @@ const Sales = () => {
                   )}
                   <div className="flex justify-between text-lg font-bold border-t pt-2">
                     <span>Total:</span>
-                    <span className="text-emerald-600">${selectedSale.total.toFixed(2)}</span>
+                    <span className="text-emerald-600">C${selectedSale.total.toFixed(2)}</span>
                   </div>
                 </div>
 
