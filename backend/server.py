@@ -434,8 +434,10 @@ async def create_supplier(
 async def get_suppliers(current_user: User = Depends(get_current_user)):
     suppliers = await db.suppliers.find({}, {"_id": 0}).to_list(1000)
     for sup in suppliers:
-        if isinstance(sup['created_at'], str):
+        if 'created_at' in sup and isinstance(sup['created_at'], str):
             sup['created_at'] = datetime.fromisoformat(sup['created_at'])
+        elif 'created_at' not in sup:
+            sup['created_at'] = datetime.now(timezone.utc)
     return suppliers
 
 @api_router.get("/suppliers/{supplier_id}", response_model=Supplier)
@@ -443,8 +445,10 @@ async def get_supplier(supplier_id: str, current_user: User = Depends(get_curren
     supplier = await db.suppliers.find_one({"id": supplier_id}, {"_id": 0})
     if not supplier:
         raise HTTPException(status_code=404, detail="Supplier not found")
-    if isinstance(supplier['created_at'], str):
+    if 'created_at' in supplier and isinstance(supplier['created_at'], str):
         supplier['created_at'] = datetime.fromisoformat(supplier['created_at'])
+    elif 'created_at' not in supplier:
+        supplier['created_at'] = datetime.now(timezone.utc)
     return supplier
 
 @api_router.put("/suppliers/{supplier_id}", response_model=Supplier)
@@ -461,8 +465,10 @@ async def update_supplier(
     await db.suppliers.update_one({"id": supplier_id}, {"$set": update_data})
     supplier.update(update_data)
     
-    if isinstance(supplier['created_at'], str):
+    if 'created_at' in supplier and isinstance(supplier['created_at'], str):
         supplier['created_at'] = datetime.fromisoformat(supplier['created_at'])
+    elif 'created_at' not in supplier:
+        supplier['created_at'] = datetime.now(timezone.utc)
     return supplier
 
 @api_router.delete("/suppliers/{supplier_id}")
