@@ -314,7 +314,7 @@ const Categories = () => {
                           <div>
                             <p className="text-gray-500">Precio</p>
                             <p className="font-semibold text-emerald-600 text-lg">
-                              ${product.price.toFixed(2)}
+                              C${product.price.toFixed(2)}
                             </p>
                           </div>
                           <div>
