@@ -1126,7 +1126,7 @@ async def restore_database(
 
 # ==================== SEED DATA ENDPOINT ====================
 
-@api_router.post("/seed-data")
+@api_router.api_route("/seed-data", methods=["GET", "POST"])
 async def seed_database():
     try:
         # Check if data already exists
