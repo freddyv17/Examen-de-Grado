@@ -177,7 +177,7 @@ const POS = () => {
                   <h3 className="font-semibold text-gray-900">{product.name}</h3>
                   <p className="text-sm text-gray-500 mb-2">{product.description}</p>
                   <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-emerald-600">${product.price.toFixed(2)}</span>
+                    <span className="text-2xl font-bold text-emerald-600">C${product.price.toFixed(2)}</span>
                     <span className="text-sm text-gray-600">Stock: {product.stock}</span>
                   </div>
                 </div>
@@ -221,7 +221,7 @@ const POS = () => {
                     <div key={item.product_id} className="flex items-center justify-between border-b pb-2" data-testid={`cart-item-${item.product_id}`}>
                       <div className="flex-1">
                         <p className="font-semibold text-sm">{item.product_name}</p>
-                        <p className="text-xs text-gray-500">${item.unit_price.toFixed(2)} c/u</p>
+                        <p className="text-xs text-gray-500">C${item.unit_price.toFixed(2)} c/u</p>
                       </div>
                       <div className="flex items-center space-x-2">
                         <button
@@ -258,7 +258,7 @@ const POS = () => {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Subtotal:</span>
-                      <span className="font-semibold">${calculateSubtotal().toFixed(2)}</span>
+                      <span className="font-semibold">C${calculateSubtotal().toFixed(2)}</span>
                     </div>
 
                     <div className="flex justify-between items-center">
@@ -287,7 +287,7 @@ const POS = () => {
 
                     <div className="flex justify-between text-lg font-bold border-t pt-2">
                       <span>Total:</span>
-                      <span className="text-emerald-600" data-testid="cart-total">${calculateTotal().toFixed(2)}</span>
+                      <span className="text-emerald-600" data-testid="cart-total">C${calculateTotal().toFixed(2)}</span>
                     </div>
                   </div>
 
