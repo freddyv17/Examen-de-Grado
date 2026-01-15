@@ -124,8 +124,8 @@ const Receipt = ({ sale, onClose }) => {
                     <tr key={index} className="border-b border-gray-200">
                       <td className="py-2">{detail.product_name}</td>
                       <td className="text-center py-2">{detail.quantity}</td>
-                      <td className="text-right py-2">${detail.unit_price.toFixed(2)}</td>
-                      <td className="text-right py-2 font-semibold">${detail.subtotal.toFixed(2)}</td>
+                      <td className="text-right py-2">C${detail.unit_price.toFixed(2)}</td>
+                      <td className="text-right py-2 font-semibold">C${detail.subtotal.toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -136,23 +136,23 @@ const Receipt = ({ sale, onClose }) => {
             <div className="mb-6 text-sm border-t-2 border-gray-300 pt-4">
               <div className="flex justify-between mb-2">
                 <span>Subtotal:</span>
-                <span className="font-semibold">${sale.subtotal.toFixed(2)}</span>
+                <span className="font-semibold">C${sale.subtotal.toFixed(2)}</span>
               </div>
               {sale.tax > 0 && (
                 <div className="flex justify-between mb-2">
                   <span>Impuesto:</span>
-                  <span className="font-semibold">${sale.tax.toFixed(2)}</span>
+                  <span className="font-semibold">C${sale.tax.toFixed(2)}</span>
                 </div>
               )}
               {sale.discount > 0 && (
                 <div className="flex justify-between mb-2 text-red-600">
                   <span>Descuento:</span>
-                  <span className="font-semibold">-${sale.discount.toFixed(2)}</span>
+                  <span className="font-semibold">-C${sale.discount.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between text-lg font-bold border-t-2 border-gray-300 pt-2 mt-2">
                 <span>TOTAL:</span>
-                <span className="text-emerald-600">${sale.total.toFixed(2)}</span>
+                <span className="text-emerald-600">C${sale.total.toFixed(2)}</span>
               </div>
             </div>
 
