@@ -1,0 +1,16 @@
+[
+  {
+    "id": "cli-001",
+    "name": "Cliente General",
+    "phone": "000-0000",
+    "email": "",
+    "address": ""
+  },
+  {
+    "id": "cli-002",
+    "name": "Pedro Martínez",
+    "phone": "555-1234",
+    "email": "pedro@email.com",
+    "address": "Calle 10 #123"
+  }
+]

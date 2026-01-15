@@ -1,0 +1,18 @@
+[
+  {
+    "id": "sup-001",
+    "name": "Distribuidora Farma S.A.",
+    "contact_person": "Carlos Mendoza",
+    "phone": "555-0101",
+    "email": "ventas@farma.com",
+    "address": "Av. Principal 123"
+  },
+  {
+    "id": "sup-002",
+    "name": "Laboratorios Médicos",
+    "contact_person": "Ana Rodríguez",
+    "phone": "555-0102",
+    "email": "contacto@labmedicos.com",
+    "address": "Calle Salud 456"
+  }
+]

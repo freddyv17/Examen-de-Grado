@@ -1,0 +1,27 @@
+[
+  {
+    "id": "cat-001",
+    "name": "Analgésicos",
+    "description": "Medicamentos para aliviar el dolor"
+  },
+  {
+    "id": "cat-002",
+    "name": "Antibióticos",
+    "description": "Medicamentos para combatir infecciones"
+  },
+  {
+    "id": "cat-003",
+    "name": "Vitaminas",
+    "description": "Suplementos vitamínicos"
+  },
+  {
+    "id": "cat-004",
+    "name": "Antiinflamatorios",
+    "description": "Medicamentos para reducir inflamación"
+  },
+  {
+    "id": "cat-005",
+    "name": "Cardiovasculares",
+    "description": "Medicamentos para el corazón"
+  }
+]
