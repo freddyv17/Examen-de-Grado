@@ -677,8 +677,10 @@ async def create_sale(
 async def get_sales(current_user: User = Depends(get_current_user)):
     sales = await db.sales.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
     for sale in sales:
-        if isinstance(sale['created_at'], str):
+        if 'created_at' in sale and isinstance(sale['created_at'], str):
             sale['created_at'] = datetime.fromisoformat(sale['created_at'])
+        elif 'created_at' not in sale:
+            sale['created_at'] = datetime.now(timezone.utc)
     return sales
 
 @api_router.get("/sales/{sale_id}", response_model=Sale)
@@ -686,8 +688,10 @@ async def get_sale(sale_id: str, current_user: User = Depends(get_current_user))
     sale = await db.sales.find_one({"id": sale_id}, {"_id": 0})
     if not sale:
         raise HTTPException(status_code=404, detail="Sale not found")
-    if isinstance(sale['created_at'], str):
+    if 'created_at' in sale and isinstance(sale['created_at'], str):
         sale['created_at'] = datetime.fromisoformat(sale['created_at'])
+    elif 'created_at' not in sale:
+        sale['created_at'] = datetime.now(timezone.utc)
     return sale
 
 # ==================== INVENTORY MOVEMENT ENDPOINTS ====================
