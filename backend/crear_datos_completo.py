@@ -235,6 +235,7 @@ async def crear_datos():
         {
             "id": str(uuid.uuid4()),
             "user_id": usuarios[1]["id"],  # vendedor
+            "user_name": "Juan Perez",
             "customer_id": "cli-002",
             "customer_name": "Pedro Martinez",
             "details": [
@@ -251,6 +252,7 @@ async def crear_datos():
         {
             "id": str(uuid.uuid4()),
             "user_id": usuarios[1]["id"],  # vendedor
+            "user_name": "Juan Perez",
             "customer_id": "cli-003",
             "customer_name": "Maria Lopez",
             "details": [
