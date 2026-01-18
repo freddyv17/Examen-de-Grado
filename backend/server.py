@@ -307,8 +307,10 @@ async def create_user(
 async def get_users(current_user: User = Depends(require_role(["administrador"]))):
     users = await db.users.find({}, {"_id": 0}).to_list(1000)
     for user in users:
-        if isinstance(user['created_at'], str):
+        if 'created_at' in user and isinstance(user['created_at'], str):
             user['created_at'] = datetime.fromisoformat(user['created_at'])
+        elif 'created_at' not in user:
+            user['created_at'] = datetime.now(timezone.utc)
     return [UserResponse(**u) for u in users]
 
 @api_router.get("/users/{user_id}", response_model=UserResponse)
@@ -319,8 +321,10 @@ async def get_user(
     user = await db.users.find_one({"id": user_id}, {"_id": 0})
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    if isinstance(user['created_at'], str):
+    if 'created_at' in user and isinstance(user['created_at'], str):
         user['created_at'] = datetime.fromisoformat(user['created_at'])
+    elif 'created_at' not in user:
+        user['created_at'] = datetime.now(timezone.utc)
     return UserResponse(**user)
 
 @api_router.put("/users/{user_id}", response_model=UserResponse)
@@ -341,8 +345,10 @@ async def update_user(
         await db.users.update_one({"id": user_id}, {"$set": update_data})
         user.update(update_data)
     
-    if isinstance(user['created_at'], str):
+    if 'created_at' in user and isinstance(user['created_at'], str):
         user['created_at'] = datetime.fromisoformat(user['created_at'])
+    elif 'created_at' not in user:
+        user['created_at'] = datetime.now(timezone.utc)
     return UserResponse(**user)
 
 @api_router.delete("/users/{user_id}")
