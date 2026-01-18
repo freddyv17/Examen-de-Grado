@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # API Configuration
-BASE_URL = "https://pharmastock-23.preview.emergentagent.com/api"
+BASE_URL = "https://pharma-pos-12.preview.emergentagent.com/api"
 
 # Test credentials
 CREDENTIALS = {
