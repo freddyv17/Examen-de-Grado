@@ -687,6 +687,11 @@ async def get_sales(current_user: User = Depends(get_current_user)):
             sale['created_at'] = datetime.fromisoformat(sale['created_at'])
         elif 'created_at' not in sale:
             sale['created_at'] = datetime.now(timezone.utc)
+        # Agregar user_name si no existe
+        if 'user_name' not in sale:
+            sale['user_name'] = "Vendedor"
+        if 'customer_name' not in sale:
+            sale['customer_name'] = "Cliente"
     return sales
 
 @api_router.get("/sales/{sale_id}", response_model=Sale)
@@ -698,6 +703,11 @@ async def get_sale(sale_id: str, current_user: User = Depends(get_current_user))
         sale['created_at'] = datetime.fromisoformat(sale['created_at'])
     elif 'created_at' not in sale:
         sale['created_at'] = datetime.now(timezone.utc)
+    # Agregar user_name si no existe
+    if 'user_name' not in sale:
+        sale['user_name'] = "Vendedor"
+    if 'customer_name' not in sale:
+        sale['customer_name'] = "Cliente"
     return sale
 
 # ==================== INVENTORY MOVEMENT ENDPOINTS ====================
