@@ -176,14 +176,14 @@ class Sale(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     customer_id: Optional[str] = None
-    customer_name: str
-    user_id: str
-    user_name: str
-    details: List[SaleDetail]
-    subtotal: float
+    customer_name: str = ""
+    user_id: str = ""
+    user_name: str = ""
+    details: List[SaleDetail] = []
+    subtotal: float = 0.0
     tax: float = 0.0
     discount: float = 0.0
-    total: float
+    total: float = 0.0
     payment_method: str = "efectivo"
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
