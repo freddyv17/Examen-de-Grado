@@ -734,8 +734,10 @@ async def create_inventory_movement(
 async def get_inventory_movements(current_user: User = Depends(get_current_user)):
     movements = await db.inventory_movements.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
     for mov in movements:
-        if isinstance(mov['created_at'], str):
+        if 'created_at' in mov and isinstance(mov['created_at'], str):
             mov['created_at'] = datetime.fromisoformat(mov['created_at'])
+        elif 'created_at' not in mov:
+            mov['created_at'] = datetime.now(timezone.utc)
     return movements
 
 # ==================== DASHBOARD ENDPOINTS ====================
