@@ -154,14 +154,14 @@ class Customer(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
     phone: str
-    email: Optional[EmailStr] = None
+    email: Optional[str] = None
     address: Optional[str] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class CustomerCreate(BaseModel):
     name: str
     phone: str
-    email: Optional[EmailStr] = None
+    email: Optional[str] = None
     address: Optional[str] = None
 
 # Sale Models
