@@ -225,6 +225,7 @@ const Products = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proveedor</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vencimiento</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
                   {canEdit && (
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
@@ -232,8 +233,13 @@ const Products = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredProducts.map((product) => (
-                  <tr key={product.id} data-testid={`product-row-${product.id}`}>
+                {filteredProducts.map((product) => {
+                  const isExpired = product.expiration_date && new Date(product.expiration_date) < new Date();
+                  const isNearExpiry = product.expiration_date && !isExpired && 
+                    new Date(product.expiration_date) < new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+                  
+                  return (
+                  <tr key={product.id} data-testid={`product-row-${product.id}`} className={isExpired ? 'bg-red-50' : ''}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{product.name}</div>
                       <div className="text-sm text-gray-500">{product.description}</div>
@@ -249,6 +255,30 @@ const Products = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {product.stock}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {product.expiration_date ? (
+                        <div>
+                          <div className="text-sm text-gray-900">
+                            {new Date(product.expiration_date).toLocaleDateString('es-NI')}
+                          </div>
+                          {isExpired ? (
+                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                              VENCIDO
+                            </span>
+                          ) : isNearExpiry ? (
+                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                              Por vencer
+                            </span>
+                          ) : (
+                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                              Vigente
+                            </span>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-sm text-gray-400">Sin fecha</span>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {product.stock <= product.min_stock ? (
