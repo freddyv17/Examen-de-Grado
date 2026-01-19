@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura ADMINISTRADOR - Farmacia Maribel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .title {
+            color: #fff;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .role-badge {
+            background-color: #ffd700;
+            color: #000;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .center-box {
+            background-color: #ffcccc;
+            border: 2px solid #cc9999;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            position: absolute;
+            z-index: 10;
+            min-width: 280px;
+        }
+        
+        .module-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        .sub-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 8px 15px;
+            text-align: left;
+            font-size: 12px;
+            position: absolute;
+            min-width: 140px;
+        }
+        
+        .sub-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .sub-box li {
+            margin: 3px 0;
+        }
+        
+        .secondary-box {
+            background-color: #cce5ff;
+            border: 2px solid #99c2ff;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        .admin-box {
+            background-color: #ffe6cc;
+            border: 2px solid #ffb366;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        svg line {
+            stroke: #555;
+            stroke-width: 2;
+        }
+        
+        .diagram {
+            position: relative;
+            width: 100%;
+            height: 850px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <span class="role-badge">👑 ADMINISTRADOR</span>
+            <br>Acceso Total al Sistema
+        </div>
+        <div class="diagram">
+            <svg>
+                <!-- Líneas del centro -->
+                <line x1="700" y1="380" x2="350" y2="180"/>
+                <line x1="700" y1="380" x2="500" y2="180"/>
+                <line x1="700" y1="380" x2="650" y2="180"/>
+                <line x1="700" y1="380" x2="800" y2="180"/>
+                <line x1="700" y1="380" x2="950" y2="180"/>
+                <line x1="700" y1="380" x2="1100" y2="250"/>
+                <line x1="700" y1="420" x2="250" y2="550"/>
+                <line x1="700" y1="420" x2="400" y2="600"/>
+                <line x1="700" y1="420" x2="550" y2="600"/>
+                <line x1="700" y1="420" x2="700" y2="600"/>
+                <line x1="700" y1="420" x2="850" y2="600"/>
+                <line x1="700" y1="420" x2="1000" y2="550"/>
+                <line x1="700" y1="420" x2="1100" y2="450"/>
+                
+                <!-- Líneas secundarias -->
+                <line x1="350" y1="150" x2="350" y2="80"/>
+                <line x1="500" y1="150" x2="500" y2="80"/>
+                <line x1="650" y1="150" x2="650" y2="80"/>
+                <line x1="800" y1="150" x2="800" y2="80"/>
+                <line x1="950" y1="150" x2="950" y2="80"/>
+                <line x1="1100" y1="250" x2="1200" y2="180"/>
+                <line x1="1100" y1="280" x2="1200" y2="320"/>
+                <line x1="250" y1="580" x2="150" y2="650"/>
+                <line x1="400" y1="630" x2="400" y2="700"/>
+                <line x1="550" y1="630" x2="550" y2="700"/>
+                <line x1="700" y1="630" x2="700" y2="700"/>
+                <line x1="850" y1="630" x2="850" y2="700"/>
+                <line x1="1000" y1="580" x2="1000" y2="650"/>
+                <line x1="1100" y1="480" x2="1200" y2="480"/>
+            </svg>
+            
+            <!-- CENTRO -->
+            <div class="center-box" style="top: 350px; left: 550px;">
+                👑 ADMINISTRADOR<br>
+                Farmacia Maribel<br>
+                <small style="font-weight: normal;">Acceso Total</small>
+            </div>
+            
+            <!-- FILA SUPERIOR -->
+            <div class="module-box" style="top: 150px; left: 300px;">Dashboard</div>
+            <div class="sub-box" style="top: 50px; left: 280px;">
+                <ul>
+                    <li>Ver estadísticas</li>
+                    <li>Gráficos</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 150px; left: 450px;">Productos</div>
+            <div class="sub-box" style="top: 50px; left: 430px;">
+                <ul>
+                    <li>Crear ✅</li>
+                    <li>Editar ✅</li>
+                    <li>Eliminar ✅</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 150px; left: 600px;">Categorías</div>
+            <div class="sub-box" style="top: 50px; left: 580px;">
+                <ul>
+                    <li>Crear ✅</li>
+                    <li>Editar ✅</li>
+                    <li>Eliminar ✅</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 150px; left: 750px;">Proveedores</div>
+            <div class="sub-box" style="top: 50px; left: 730px;">
+                <ul>
+                    <li>Crear ✅</li>
+                    <li>Editar ✅</li>
+                    <li>Eliminar ✅</li>
+                </ul>
+            </div>
+            
+            <div class="secondary-box" style="top: 150px; left: 900px;">Clientes</div>
+            <div class="sub-box" style="top: 50px; left: 880px;">
+                <ul>
+                    <li>Crear ✅</li>
+                    <li>Editar ✅</li>
+                    <li>Eliminar ✅</li>
+                </ul>
+            </div>
+            
+            <!-- LADO DERECHO - ADMIN EXCLUSIVO -->
+            <div class="admin-box" style="top: 250px; left: 1050px;">Usuarios</div>
+            <div class="sub-box" style="top: 150px; left: 1150px;">
+                <ul>
+                    <li>Crear usuarios</li>
+                    <li>Editar roles</li>
+                    <li>Eliminar ✅</li>
+                </ul>
+            </div>
+            <div class="sub-box" style="top: 290px; left: 1150px;">
+                <ul>
+                    <li>Asignar permisos</li>
+                    <li>Activar/Desactivar</li>
+                </ul>
+            </div>
+            
+            <!-- FILA INFERIOR -->
+            <div class="module-box" style="top: 550px; left: 200px;">Reportes</div>
+            <div class="sub-box" style="top: 620px; left: 80px;">
+                <ul>
+                    <li>Ventas por período</li>
+                    <li>Productos vendidos</li>
+                    <li>Exportar Excel ✅</li>
+                    <li>Stock bajo</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 600px; left: 350px;">Ventas</div>
+            <div class="sub-box" style="top: 680px; left: 330px;">
+                <ul>
+                    <li>Ver historial</li>
+                    <li>Eliminar ✅</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 600px; left: 500px;">POS</div>
+            <div class="sub-box" style="top: 680px; left: 480px;">
+                <ul>
+                    <li>Realizar ventas</li>
+                    <li>Generar recibos</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 600px; left: 650px;">Inventario</div>
+            <div class="sub-box" style="top: 680px; left: 620px;">
+                <ul>
+                    <li>Movimientos</li>
+                    <li>Ajustes ✅</li>
+                    <li>Eliminar ✅</li>
+                </ul>
+            </div>
+            
+            <div class="secondary-box" style="top: 600px; left: 800px;">Perfil</div>
+            <div class="sub-box" style="top: 680px; left: 780px;">
+                <ul>
+                    <li>Ver información</li>
+                    <li>Cambiar contraseña</li>
+                </ul>
+            </div>
+            
+            <div class="admin-box" style="top: 550px; left: 950px;">Base de Datos</div>
+            <div class="sub-box" style="top: 620px; left: 930px;">
+                <ul>
+                    <li>Crear Backup ✅</li>
+                    <li>Restaurar ✅</li>
+                    <li>Exportar ✅</li>
+                </ul>
+            </div>
+            
+            <div class="admin-box" style="top: 450px; left: 1050px;">Configuración</div>
+            <div class="sub-box" style="top: 450px; left: 1150px;">
+                <ul>
+                    <li>Sistema completo</li>
+                    <li>Todos los permisos</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

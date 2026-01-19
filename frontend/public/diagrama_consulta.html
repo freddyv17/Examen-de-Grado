@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura CONSULTA - Farmacia Maribel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .title {
+            color: #fff;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .role-badge {
+            background-color: #2196F3;
+            color: #fff;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .center-box {
+            background-color: #bbdefb;
+            border: 2px solid #64b5f6;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            position: absolute;
+            z-index: 10;
+            min-width: 280px;
+        }
+        
+        .module-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        .sub-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 8px 15px;
+            text-align: left;
+            font-size: 12px;
+            position: absolute;
+            min-width: 140px;
+        }
+        
+        .sub-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .sub-box li {
+            margin: 3px 0;
+        }
+        
+        .readonly-box {
+            background-color: #e3f2fd;
+            border: 2px solid #90caf9;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        .disabled-box {
+            background-color: #555;
+            border: 2px solid #333;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            color: #888;
+            text-decoration: line-through;
+        }
+        
+        .no-access {
+            background-color: #ffcccc;
+            border: 2px solid #ff9999;
+            padding: 8px 15px;
+            text-align: center;
+            font-size: 12px;
+            position: absolute;
+            color: #cc0000;
+        }
+        
+        .readonly-note {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 8px 15px;
+            text-align: center;
+            font-size: 12px;
+            position: absolute;
+            color: #856404;
+        }
+        
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        svg line {
+            stroke: #555;
+            stroke-width: 2;
+        }
+        
+        .diagram {
+            position: relative;
+            width: 100%;
+            height: 850px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <span class="role-badge">👁️ CONSULTA</span>
+            <br>Solo Lectura - Sin Permisos de Escritura
+        </div>
+        <div class="diagram">
+            <svg>
+                <!-- Líneas del centro -->
+                <line x1="700" y1="380" x2="350" y2="180"/>
+                <line x1="700" y1="380" x2="500" y2="180"/>
+                <line x1="700" y1="380" x2="650" y2="180"/>
+                <line x1="700" y1="380" x2="800" y2="180"/>
+                <line x1="700" y1="380" x2="950" y2="180"/>
+                <line x1="700" y1="420" x2="300" y2="550"/>
+                <line x1="700" y1="420" x2="450" y2="600"/>
+                <line x1="700" y1="420" x2="650" y2="600"/>
+                <line x1="700" y1="420" x2="850" y2="600"/>
+                
+                <!-- Líneas secundarias -->
+                <line x1="350" y1="150" x2="350" y2="80"/>
+                <line x1="500" y1="150" x2="500" y2="80"/>
+                <line x1="650" y1="150" x2="650" y2="80"/>
+                <line x1="800" y1="150" x2="800" y2="80"/>
+                <line x1="950" y1="150" x2="950" y2="80"/>
+                <line x1="300" y1="580" x2="200" y2="650"/>
+                <line x1="450" y1="630" x2="450" y2="700"/>
+                <line x1="650" y1="630" x2="650" y2="700"/>
+                <line x1="850" y1="630" x2="850" y2="700"/>
+            </svg>
+            
+            <!-- CENTRO -->
+            <div class="center-box" style="top: 350px; left: 550px;">
+                👁️ CONSULTA<br>
+                Farmacia Maribel<br>
+                <small style="font-weight: normal;">Solo Lectura</small>
+            </div>
+            
+            <!-- FILA SUPERIOR -->
+            <div class="readonly-box" style="top: 150px; left: 300px;">Dashboard</div>
+            <div class="sub-box" style="top: 50px; left: 280px;">
+                <ul>
+                    <li>Ver estadísticas ✅</li>
+                    <li>Ver gráficos ✅</li>
+                </ul>
+            </div>
+            
+            <div class="readonly-box" style="top: 150px; left: 450px;">Productos</div>
+            <div class="sub-box" style="top: 50px; left: 430px;">
+                <ul>
+                    <li>Ver listado ✅</li>
+                    <li>Crear ❌</li>
+                    <li>Editar ❌</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="readonly-box" style="top: 150px; left: 600px;">Categorías</div>
+            <div class="sub-box" style="top: 50px; left: 580px;">
+                <ul>
+                    <li>Ver listado ✅</li>
+                    <li>Crear ❌</li>
+                    <li>Editar ❌</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="readonly-box" style="top: 150px; left: 750px;">Proveedores</div>
+            <div class="sub-box" style="top: 50px; left: 730px;">
+                <ul>
+                    <li>Ver listado ✅</li>
+                    <li>Crear ❌</li>
+                    <li>Editar ❌</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="readonly-box" style="top: 150px; left: 900px;">Clientes</div>
+            <div class="sub-box" style="top: 50px; left: 880px;">
+                <ul>
+                    <li>Ver listado ✅</li>
+                    <li>Crear ❌</li>
+                    <li>Editar ❌</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <!-- SIN ACCESO - LADO DERECHO -->
+            <div class="disabled-box" style="top: 220px; left: 1050px;">Usuarios</div>
+            <div class="no-access" style="top: 270px; left: 1050px;">❌ Sin Acceso</div>
+            
+            <div class="disabled-box" style="top: 350px; left: 1050px;">Base de Datos</div>
+            <div class="no-access" style="top: 400px; left: 1050px;">❌ Sin Acceso</div>
+            
+            <div class="disabled-box" style="top: 480px; left: 1050px;">POS</div>
+            <div class="no-access" style="top: 530px; left: 1050px;">❌ Sin Acceso</div>
+            
+            <!-- FILA INFERIOR -->
+            <div class="readonly-box" style="top: 550px; left: 250px;">Reportes</div>
+            <div class="sub-box" style="top: 620px; left: 130px;">
+                <ul>
+                    <li>Ver reportes ✅</li>
+                    <li>Generar ❌</li>
+                    <li>Exportar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="readonly-box" style="top: 600px; left: 400px;">Ventas</div>
+            <div class="sub-box" style="top: 680px; left: 380px;">
+                <ul>
+                    <li>Ver historial ✅</li>
+                    <li>Ver detalles ✅</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="readonly-box" style="top: 600px; left: 600px;">Inventario</div>
+            <div class="sub-box" style="top: 680px; left: 570px;">
+                <ul>
+                    <li>Ver movimientos ✅</li>
+                    <li>Ver stock ✅</li>
+                    <li>Registrar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="readonly-box" style="top: 600px; left: 800px;">Perfil</div>
+            <div class="sub-box" style="top: 680px; left: 780px;">
+                <ul>
+                    <li>Ver información ✅</li>
+                    <li>Cambiar contraseña ✅</li>
+                </ul>
+            </div>
+            
+            <!-- Nota de solo lectura -->
+            <div class="readonly-note" style="top: 780px; left: 500px; width: 300px;">
+                ⚠️ Este rol solo puede VER información.<br>
+                No puede crear, editar ni eliminar datos.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

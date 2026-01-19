@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura VENDEDOR - Farmacia Maribel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .title {
+            color: #fff;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .role-badge {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .center-box {
+            background-color: #c8e6c9;
+            border: 2px solid #81c784;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            position: absolute;
+            z-index: 10;
+            min-width: 280px;
+        }
+        
+        .module-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        .sub-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 8px 15px;
+            text-align: left;
+            font-size: 12px;
+            position: absolute;
+            min-width: 140px;
+        }
+        
+        .sub-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .sub-box li {
+            margin: 3px 0;
+        }
+        
+        .secondary-box {
+            background-color: #cce5ff;
+            border: 2px solid #99c2ff;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        .disabled-box {
+            background-color: #555;
+            border: 2px solid #333;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            color: #888;
+            text-decoration: line-through;
+        }
+        
+        .no-access {
+            background-color: #ffcccc;
+            border: 2px solid #ff9999;
+            padding: 8px 15px;
+            text-align: center;
+            font-size: 12px;
+            position: absolute;
+            color: #cc0000;
+        }
+        
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        svg line {
+            stroke: #555;
+            stroke-width: 2;
+        }
+        
+        .diagram {
+            position: relative;
+            width: 100%;
+            height: 850px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <span class="role-badge">🛒 VENDEDOR</span>
+            <br>Operaciones de Venta e Inventario
+        </div>
+        <div class="diagram">
+            <svg>
+                <!-- Líneas del centro -->
+                <line x1="700" y1="380" x2="350" y2="180"/>
+                <line x1="700" y1="380" x2="500" y2="180"/>
+                <line x1="700" y1="380" x2="650" y2="180"/>
+                <line x1="700" y1="380" x2="800" y2="180"/>
+                <line x1="700" y1="380" x2="950" y2="180"/>
+                <line x1="700" y1="420" x2="300" y2="550"/>
+                <line x1="700" y1="420" x2="450" y2="600"/>
+                <line x1="700" y1="420" x2="600" y2="600"/>
+                <line x1="700" y1="420" x2="750" y2="600"/>
+                <line x1="700" y1="420" x2="900" y2="600"/>
+                
+                <!-- Líneas secundarias -->
+                <line x1="350" y1="150" x2="350" y2="80"/>
+                <line x1="500" y1="150" x2="500" y2="80"/>
+                <line x1="650" y1="150" x2="650" y2="80"/>
+                <line x1="800" y1="150" x2="800" y2="80"/>
+                <line x1="950" y1="150" x2="950" y2="80"/>
+                <line x1="300" y1="580" x2="200" y2="650"/>
+                <line x1="450" y1="630" x2="450" y2="700"/>
+                <line x1="600" y1="630" x2="600" y2="700"/>
+                <line x1="750" y1="630" x2="750" y2="700"/>
+                <line x1="900" y1="630" x2="900" y2="700"/>
+            </svg>
+            
+            <!-- CENTRO -->
+            <div class="center-box" style="top: 350px; left: 550px;">
+                🛒 VENDEDOR<br>
+                Farmacia Maribel<br>
+                <small style="font-weight: normal;">Crear, Editar, Ver</small>
+            </div>
+            
+            <!-- FILA SUPERIOR -->
+            <div class="module-box" style="top: 150px; left: 300px;">Dashboard</div>
+            <div class="sub-box" style="top: 50px; left: 280px;">
+                <ul>
+                    <li>Ver estadísticas</li>
+                    <li>Gráficos</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 150px; left: 450px;">Productos</div>
+            <div class="sub-box" style="top: 50px; left: 430px;">
+                <ul>
+                    <li>Crear ✅</li>
+                    <li>Editar ✅</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 150px; left: 600px;">Categorías</div>
+            <div class="sub-box" style="top: 50px; left: 580px;">
+                <ul>
+                    <li>Crear ✅</li>
+                    <li>Editar ✅</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 150px; left: 750px;">Proveedores</div>
+            <div class="sub-box" style="top: 50px; left: 730px;">
+                <ul>
+                    <li>Crear ✅</li>
+                    <li>Editar ✅</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="secondary-box" style="top: 150px; left: 900px;">Clientes</div>
+            <div class="sub-box" style="top: 50px; left: 880px;">
+                <ul>
+                    <li>Crear ✅</li>
+                    <li>Editar ✅</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <!-- SIN ACCESO - LADO DERECHO -->
+            <div class="disabled-box" style="top: 250px; left: 1050px;">Usuarios</div>
+            <div class="no-access" style="top: 300px; left: 1050px;">❌ Sin Acceso</div>
+            
+            <div class="disabled-box" style="top: 400px; left: 1050px;">Base de Datos</div>
+            <div class="no-access" style="top: 450px; left: 1050px;">❌ Sin Acceso</div>
+            
+            <!-- FILA INFERIOR -->
+            <div class="module-box" style="top: 550px; left: 250px;">Reportes</div>
+            <div class="sub-box" style="top: 620px; left: 130px;">
+                <ul>
+                    <li>Ver reportes ✅</li>
+                    <li>Exportar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 600px; left: 400px;">Ventas</div>
+            <div class="sub-box" style="top: 680px; left: 380px;">
+                <ul>
+                    <li>Ver historial ✅</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 600px; left: 550px;">POS</div>
+            <div class="sub-box" style="top: 680px; left: 530px;">
+                <ul>
+                    <li>Realizar ventas ✅</li>
+                    <li>Generar recibos ✅</li>
+                    <li>Aplicar descuentos ✅</li>
+                </ul>
+            </div>
+            
+            <div class="module-box" style="top: 600px; left: 700px;">Inventario</div>
+            <div class="sub-box" style="top: 680px; left: 680px;">
+                <ul>
+                    <li>Ver movimientos ✅</li>
+                    <li>Registrar entradas ✅</li>
+                    <li>Eliminar ❌</li>
+                </ul>
+            </div>
+            
+            <div class="secondary-box" style="top: 600px; left: 850px;">Perfil</div>
+            <div class="sub-box" style="top: 680px; left: 830px;">
+                <ul>
+                    <li>Ver información ✅</li>
+                    <li>Cambiar contraseña ✅</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
