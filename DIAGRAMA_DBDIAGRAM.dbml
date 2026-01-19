@@ -1,154 +1,100 @@
-// =====================================================
 // MODELO DE DATOS - SISTEMA FARMACIA MARIBEL
-// =====================================================
-// Para generar el diagrama visual:
-// 1. Ve a https://dbdiagram.io
-// 2. Copia y pega este código
-// 3. El diagrama se generará automáticamente
-// =====================================================
+// Ve a https://dbdiagram.io y pega este codigo
 
 Table usuarios {
-  id varchar [pk, note: 'UUID - Identificador único']
-  username varchar [unique, not null, note: 'Nombre de usuario para login']
-  email varchar [unique, not null, note: 'Correo electrónico']
-  password_hash varchar [not null, note: 'Contraseña encriptada bcrypt']
-  role varchar [not null, note: 'administrador | vendedor | consulta']
+  id varchar [pk, note: 'UUID']
+  username varchar [unique, not null, note: 'Nombre de usuario']
+  email varchar [unique, not null, note: 'Correo electronico']
+  password_hash varchar [not null, note: 'Contrasena encriptada']
+  role varchar [not null, note: 'administrador, vendedor, consulta']
   full_name varchar [not null, note: 'Nombre completo']
-  active boolean [default: true, note: 'Estado activo/inactivo']
-  created_at datetime [default: `now()`, note: 'Fecha de creación']
-  
-  Note: 'Usuarios del sistema con diferentes roles y permisos'
+  active boolean [default: true, note: 'Estado activo']
+  created_at datetime [note: 'Fecha de creacion']
 }
 
 Table categorias {
-  id varchar [pk, note: 'UUID - Identificador único']
-  name varchar [not null, note: 'Nombre de categoría']
-  description varchar [not null, note: 'Descripción']
-  created_at datetime [default: `now()`, note: 'Fecha de creación']
-  
-  Note: 'Categorías para clasificar productos (Medicamentos, Cosméticos, etc.)'
+  id varchar [pk, note: 'UUID']
+  name varchar [not null, note: 'Nombre de categoria']
+  description varchar [not null, note: 'Descripcion']
+  created_at datetime [note: 'Fecha de creacion']
 }
 
 Table proveedores {
-  id varchar [pk, note: 'UUID - Identificador único']
+  id varchar [pk, note: 'UUID']
   name varchar [not null, note: 'Nombre del proveedor']
   contact_person varchar [not null, note: 'Persona de contacto']
-  phone varchar [not null, note: 'Teléfono']
-  email varchar [not null, note: 'Correo electrónico']
-  address varchar [not null, note: 'Dirección física']
-  created_at datetime [default: `now()`, note: 'Fecha de registro']
-  
-  Note: 'Proveedores que suministran productos a la farmacia'
+  phone varchar [not null, note: 'Telefono']
+  email varchar [not null, note: 'Correo electronico']
+  address varchar [not null, note: 'Direccion']
+  created_at datetime [note: 'Fecha de registro']
 }
 
 Table productos {
-  id varchar [pk, note: 'UUID - Identificador único']
+  id varchar [pk, note: 'UUID']
   name varchar [not null, note: 'Nombre del producto']
-  description varchar [not null, note: 'Descripción detallada']
-  category_id varchar [ref: > categorias.id, note: 'FK a Categorías']
-  supplier_id varchar [ref: > proveedores.id, note: 'FK a Proveedores']
-  price float [not null, note: 'Precio de venta (C$)']
-  cost float [not null, note: 'Costo de adquisición (C$)']
+  description varchar [not null, note: 'Descripcion']
+  category_id varchar [ref: > categorias.id, note: 'FK Categoria']
+  supplier_id varchar [ref: > proveedores.id, note: 'FK Proveedor']
+  price float [not null, note: 'Precio de venta C$']
+  cost float [not null, note: 'Costo C$']
   stock int [not null, note: 'Cantidad en inventario']
-  min_stock int [default: 10, note: 'Stock mínimo para alerta']
+  min_stock int [default: 10, note: 'Stock minimo']
   expiration_date datetime [note: 'Fecha de vencimiento']
-  barcode varchar [note: 'Código de barras']
+  barcode varchar [note: 'Codigo de barras']
   active boolean [default: true, note: 'Producto activo']
-  created_at datetime [default: `now()`, note: 'Fecha de registro']
-  
-  Note: 'Catálogo de productos de la farmacia'
+  created_at datetime [note: 'Fecha de registro']
 }
 
 Table clientes {
-  id varchar [pk, note: 'UUID - Identificador único']
+  id varchar [pk, note: 'UUID']
   name varchar [not null, note: 'Nombre completo']
-  phone varchar [not null, note: 'Teléfono']
-  email varchar [note: 'Correo electrónico (opcional)']
-  address varchar [note: 'Dirección (opcional)']
-  created_at datetime [default: `now()`, note: 'Fecha de registro']
-  
-  Note: 'Clientes registrados de la farmacia'
+  phone varchar [not null, note: 'Telefono']
+  email varchar [note: 'Correo opcional']
+  address varchar [note: 'Direccion opcional']
+  created_at datetime [note: 'Fecha de registro']
 }
 
 Table ventas {
-  id varchar [pk, note: 'UUID - Identificador de venta']
-  customer_id varchar [ref: > clientes.id, note: 'FK a Cliente (opcional)']
+  id varchar [pk, note: 'UUID de venta']
+  customer_id varchar [ref: > clientes.id, note: 'FK Cliente']
   customer_name varchar [not null, note: 'Nombre del cliente']
-  user_id varchar [ref: > usuarios.id, note: 'FK a Usuario vendedor']
+  user_id varchar [ref: > usuarios.id, note: 'FK Vendedor']
   user_name varchar [not null, note: 'Nombre del vendedor']
-  subtotal float [not null, note: 'Subtotal antes de impuestos']
-  tax float [default: 0, note: 'Impuesto aplicado']
-  discount float [default: 0, note: 'Descuento aplicado']
-  total float [not null, note: 'Total a pagar (C$)']
-  payment_method varchar [not null, note: 'efectivo | tarjeta | transferencia']
-  created_at datetime [default: `now()`, note: 'Fecha y hora de venta']
-  
-  Note: 'Registro de todas las ventas realizadas'
+  subtotal float [not null, note: 'Subtotal']
+  tax float [default: 0, note: 'Impuesto']
+  discount float [default: 0, note: 'Descuento']
+  total float [not null, note: 'Total C$']
+  payment_method varchar [not null, note: 'efectivo, tarjeta, transferencia']
+  created_at datetime [note: 'Fecha de venta']
 }
 
 Table detalle_venta {
-  id varchar [pk, note: 'UUID - Identificador']
-  sale_id varchar [ref: > ventas.id, not null, note: 'FK a Venta']
-  product_id varchar [ref: > productos.id, not null, note: 'FK a Producto']
+  id varchar [pk, note: 'UUID']
+  sale_id varchar [ref: > ventas.id, not null, note: 'FK Venta']
+  product_id varchar [ref: > productos.id, not null, note: 'FK Producto']
   product_name varchar [not null, note: 'Nombre del producto']
   quantity int [not null, note: 'Cantidad vendida']
-  unit_price float [not null, note: 'Precio unitario (C$)']
-  subtotal float [not null, note: 'Subtotal del ítem']
-  
-  Note: 'Detalle de productos en cada venta'
+  unit_price float [not null, note: 'Precio unitario C$']
+  subtotal float [not null, note: 'Subtotal del item']
 }
 
 Table movimientos_inventario {
-  id varchar [pk, note: 'UUID - Identificador único']
-  product_id varchar [ref: > productos.id, not null, note: 'FK a Producto']
+  id varchar [pk, note: 'UUID']
+  product_id varchar [ref: > productos.id, not null, note: 'FK Producto']
   product_name varchar [not null, note: 'Nombre del producto']
-  movement_type varchar [not null, note: 'entrada | salida | ajuste']
-  quantity int [not null, note: 'Cantidad del movimiento']
-  reason varchar [not null, note: 'Motivo del movimiento']
-  user_id varchar [ref: > usuarios.id, not null, note: 'FK a Usuario']
+  movement_type varchar [not null, note: 'entrada, salida, ajuste']
+  quantity int [not null, note: 'Cantidad']
+  reason varchar [not null, note: 'Motivo']
+  user_id varchar [ref: > usuarios.id, not null, note: 'FK Usuario']
   user_name varchar [not null, note: 'Nombre del usuario']
-  created_at datetime [default: `now()`, note: 'Fecha del movimiento']
-  
-  Note: 'Registro de entradas, salidas y ajustes de inventario'
+  created_at datetime [note: 'Fecha del movimiento']
 }
 
 Table roles {
   id varchar [pk, note: 'ID del rol']
   name varchar [not null, note: 'Nombre del rol']
-  description varchar [note: 'Descripción del rol']
-  permissions varchar [note: 'Lista de permisos']
-  
-  Note: 'Definición de roles y permisos del sistema'
+  description varchar [note: 'Descripcion']
+  permissions varchar [note: 'Permisos']
 }
 
-// =====================================================
-// REFERENCIAS ADICIONALES (Relaciones)
-// =====================================================
-
-Ref: usuarios.role > roles.id // Usuario tiene un rol
-
-// =====================================================
-// GRUPOS DE TABLAS (para organización visual)
-// =====================================================
-
-TableGroup seguridad {
-  usuarios
-  roles
-}
-
-TableGroup catalogos {
-  categorias
-  proveedores
-  productos
-}
-
-TableGroup transacciones {
-  clientes
-  ventas
-  detalle_venta
-}
-
-TableGroup inventario {
-  productos
-  movimientos_inventario
-}
+Ref: usuarios.role > roles.id
