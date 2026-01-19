@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura VENDEDOR - Farmacia Maribel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* Centro del diagrama - Verde para vendedor */
+        .center-box {
+            background-color: #90EE90;
+            border: 2px solid #228B22;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            z-index: 10;
+            min-width: 350px;
+        }
+        
+        /* Cajas de módulos activos */
+        .module-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        /* Cajas de sub-funciones activas */
+        .sub-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 8px 15px;
+            text-align: left;
+            font-size: 12px;
+            position: absolute;
+            min-width: 150px;
+        }
+        
+        .sub-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .sub-box li {
+            margin: 3px 0;
+        }
+        
+        /* Cajas azules para módulos secundarios */
+        .secondary-box {
+            background-color: #cce5ff;
+            border: 2px solid #99c2ff;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        /* MÓDULOS BLOQUEADOS */
+        .blocked-box {
+            background-color: #4a4a4a;
+            border: 2px solid #333;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            color: #888;
+        }
+        
+        .blocked-sub {
+            background-color: #3a3a3a;
+            border: 2px solid #333;
+            padding: 8px 15px;
+            text-align: left;
+            font-size: 12px;
+            position: absolute;
+            min-width: 150px;
+            color: #666;
+        }
+        
+        .blocked-sub ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .no-access-badge {
+            background-color: #ff4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+        
+        /* SVG para las líneas */
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        svg line {
+            stroke: #555;
+            stroke-width: 2;
+        }
+        
+        svg line.blocked-line {
+            stroke: #333;
+            stroke-dasharray: 5,5;
+        }
+        
+        .diagram {
+            position: relative;
+            width: 100%;
+            height: 900px;
+        }
+        
+        .title-badge {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="title-badge">🛒 ROL: VENDEDOR</span>
+            <p style="color: #aaa; margin-top: 10px;">Puede crear, editar y ver | NO puede eliminar ni gestionar usuarios</p>
+        </div>
+        <div class="diagram">
+            <!-- SVG para líneas de conexión -->
+            <svg>
+                <!-- Líneas activas -->
+                <line x1="550" y1="400" x2="250" y2="230"/>
+                <line x1="550" y1="400" x2="400" y2="230"/>
+                <line x1="600" y1="400" x2="530" y2="230"/>
+                <line x1="700" y1="420" x2="1000" y2="380"/>
+                <line x1="700" y1="450" x2="1050" y2="480"/>
+                <line x1="500" y1="450" x2="250" y2="530"/>
+                <line x1="550" y1="450" x2="400" y2="580"/>
+                <line x1="600" y1="450" x2="530" y2="630"/>
+                <line x1="650" y1="450" x2="670" y2="630"/>
+                <line x1="700" y1="450" x2="810" y2="630"/>
+                <line x1="250" y1="200" x2="100" y2="230"/>
+                <line x1="250" y1="530" x2="100" y2="500"/>
+                <line x1="350" y1="200" x2="350" y2="110"/>
+                <line x1="530" y1="200" x2="500" y2="110"/>
+                <line x1="1000" y1="380" x2="1070" y2="280"/>
+                <line x1="1050" y1="480" x2="1030" y2="530"/>
+                <line x1="400" y1="580" x2="330" y2="710"/>
+                <line x1="530" y1="630" x2="500" y2="730"/>
+                <line x1="670" y1="630" x2="650" y2="730"/>
+                <line x1="810" y1="630" x2="790" y2="730"/>
+                
+                <!-- Líneas bloqueadas -->
+                <line class="blocked-line" x1="650" y1="380" x2="670" y2="180"/>
+                <line class="blocked-line" x1="700" y1="380" x2="830" y2="180"/>
+                <line class="blocked-line" x1="670" y1="150" x2="650" y2="80"/>
+                <line class="blocked-line" x1="830" y1="150" x2="820" y2="80"/>
+                <line class="blocked-line" x1="750" y1="450" x2="950" y2="580"/>
+                <line class="blocked-line" x1="950" y1="580" x2="970" y2="650"/>
+            </svg>
+            
+            <!-- CAJA CENTRAL -->
+            <div class="center-box" style="top: 370px; left: 450px;">
+                Sistema de Control de Inventario<br>y Facturación - Farmacia Maribel<br>
+                <small style="font-weight: normal; color: #228B22;">🛒 Sesión: VENDEDOR</small>
+            </div>
+            
+            <!-- MÓDULOS ACTIVOS - FILA SUPERIOR -->
+            <div class="module-box" style="top: 200px; left: 200px;">Tablero</div>
+            <div class="module-box" style="top: 200px; left: 350px;">Inicio</div>
+            <div class="module-box" style="top: 200px; left: 480px;">Analíticas</div>
+            
+            <!-- Sub-cajas activas superiores -->
+            <div class="sub-box" style="top: 200px; left: 50px;">Estadísticas<br>simples</div>
+            <div class="sub-box" style="top: 80px; left: 300px;">Bienvenida al<br>usuario</div>
+            <div class="sub-box" style="top: 80px; left: 450px;">Gráficos de barras y<br>pastel</div>
+            
+            <!-- MÓDULOS BLOQUEADOS - Base de Datos y Usuarios -->
+            <div class="blocked-box" style="top: 150px; left: 620px;">
+                Base de<br>Datos
+                <span class="no-access-badge">SIN ACCESO</span>
+            </div>
+            <div class="blocked-sub" style="top: 50px; left: 600px;">
+                <ul>
+                    <li style="text-decoration: line-through;">Exportar</li>
+                    <li style="text-decoration: line-through;">Importar</li>
+                    <li style="text-decoration: line-through;">Backup</li>
+                    <li style="text-decoration: line-through;">Restaurar</li>
+                </ul>
+            </div>
+            
+            <div class="blocked-box" style="top: 150px; left: 780px;">
+                Usuarios
+                <span class="no-access-badge">SIN ACCESO</span>
+            </div>
+            <div class="blocked-sub" style="top: 50px; left: 770px;">
+                <ul>
+                    <li style="text-decoration: line-through;">Crear, editar,</li>
+                    <li style="text-decoration: line-through;">eliminar, listar</li>
+                </ul>
+            </div>
+            
+            <!-- MÓDULOS DERECHA - Proveedores y Productos (ACTIVOS) -->
+            <div class="secondary-box" style="top: 180px; left: 920px;">Proveedores</div>
+            <div class="sub-box" style="top: 250px; left: 1020px;">
+                <ul>
+                    <li>Listar productos ✓</li>
+                    <li>Control de stock ✓</li>
+                    <li>Fecha vencimiento ✓</li>
+                </ul>
+            </div>
+            <div class="sub-box" style="top: 100px; left: 950px;">Crear, editar,<br>listar ✓<br><span style="color: red;">eliminar ✗</span></div>
+            
+            <div class="secondary-box" style="top: 350px; left: 950px;">Productos</div>
+            <div class="module-box" style="top: 450px; left: 1000px;">POS<br>(Punto de Venta)</div>
+            <div class="sub-box" style="top: 500px; left: 980px;">
+                <ul>
+                    <li>Realizar ventas ✓</li>
+                    <li>Generar recibos ✓</li>
+                    <li>Aplicar descuentos ✓</li>
+                </ul>
+            </div>
+            
+            <!-- MÓDULOS INFERIORES - ACTIVOS -->
+            <div class="module-box" style="top: 500px; left: 200px;">Reportes</div>
+            <div class="module-box" style="top: 550px; left: 350px;">Perfil</div>
+            <div class="module-box" style="top: 600px; left: 480px;">Clientes</div>
+            <div class="module-box" style="top: 600px; left: 620px;">Ventas</div>
+            <div class="module-box" style="top: 600px; left: 760px;">Categorías</div>
+            
+            <!-- Sub-cajas inferiores -->
+            <div class="sub-box" style="top: 450px; left: 20px;">
+                <ul>
+                    <li>Ventas por período ✓</li>
+                    <li>Productos más vendidos ✓</li>
+                </ul>
+            </div>
+            <div class="sub-box" style="top: 520px; left: 50px;">Movimientos<br>de Inventario ✓</div>
+            <div class="sub-box" style="top: 580px; left: 20px;">
+                <ul>
+                    <li style="color: red;">Exportar a Excel ✗</li>
+                </ul>
+            </div>
+            <div class="sub-box" style="top: 680px; left: 280px;">Información del<br>usuario actual ✓</div>
+            <div class="sub-box" style="top: 700px; left: 450px;">Crear, editar,<br>listar ✓<br><span style="color: red;">eliminar ✗</span></div>
+            <div class="sub-box" style="top: 700px; left: 600px;">
+                <ul>
+                    <li>Ver historial ✓</li>
+                    <li>Detalles de venta ✓</li>
+                    <li>Filtrar por fecha ✓</li>
+                </ul>
+            </div>
+            <div class="sub-box" style="top: 700px; left: 740px;">Listado de categorías<br>de productos ✓</div>
+            
+            <!-- ROLES - BLOQUEADO -->
+            <div class="blocked-box" style="top: 550px; left: 900px;">
+                Roles
+                <span class="no-access-badge">SIN ACCESO</span>
+            </div>
+            <div class="blocked-sub" style="top: 620px; left: 920px;">
+                <ul>
+                    <li style="text-decoration: line-through;">Administrador</li>
+                    <li style="text-decoration: line-through;">Vendedor</li>
+                    <li style="text-decoration: line-through;">Consulta</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
