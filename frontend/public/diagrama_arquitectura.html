@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura del Sistema - Farmacia Maribel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* Centro del diagrama */
+        .center-box {
+            background-color: #ffcccc;
+            border: 2px solid #cc9999;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            min-width: 350px;
+        }
+        
+        /* Cajas de módulos principales */
+        .module-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        /* Cajas de sub-funciones */
+        .sub-box {
+            background-color: #ccffcc;
+            border: 2px solid #99cc99;
+            padding: 8px 15px;
+            text-align: left;
+            font-size: 12px;
+            position: absolute;
+            min-width: 150px;
+        }
+        
+        .sub-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .sub-box li {
+            margin: 3px 0;
+        }
+        
+        /* Cajas azules para módulos secundarios */
+        .secondary-box {
+            background-color: #cce5ff;
+            border: 2px solid #99c2ff;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+        }
+        
+        /* Líneas de conexión */
+        .line {
+            position: absolute;
+            background-color: #666;
+            z-index: 1;
+        }
+        
+        .line-h {
+            height: 2px;
+        }
+        
+        .line-v {
+            width: 2px;
+        }
+        
+        /* SVG para las líneas */
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        svg line {
+            stroke: #555;
+            stroke-width: 2;
+        }
+        
+        /* Contenedor del diagrama */
+        .diagram {
+            position: relative;
+            width: 100%;
+            height: 900px;
+        }
+        
+        /* Posiciones específicas */
+        
+        /* CENTRO */
+        .center {
+            top: 400px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* FILA SUPERIOR - Tablero, Inicio, Analíticas, Base de Datos, Usuarios */
+        .tablero { top: 200px; left: 200px; }
+        .inicio { top: 200px; left: 350px; }
+        .analiticas { top: 200px; left: 480px; }
+        .base-datos { top: 150px; left: 620px; }
+        .usuarios { top: 150px; left: 780px; }
+        
+        /* Sub-cajas superiores */
+        .bienvenida { top: 80px; left: 300px; }
+        .graficos { top: 80px; left: 450px; }
+        .exportar { top: 50px; left: 600px; }
+        .crud-usuarios { top: 50px; left: 770px; }
+        .estadisticas { top: 200px; left: 50px; }
+        
+        /* LADO DERECHO - Médicos (Proveedores), Consultas, Citas */
+        .proveedores { top: 180px; left: 920px; }
+        .consultas-prov { top: 250px; left: 1020px; }
+        .productos { top: 350px; left: 950px; }
+        .citas { top: 450px; left: 1000px; }
+        .crud-proveedores { top: 100px; left: 950px; }
+        .funciones-productos { top: 500px; left: 980px; }
+        
+        /* FILA INFERIOR - Reportes, Perfil, Pacientes, Expedientes, Catálogos, Roles */
+        .reportes { top: 500px; left: 200px; }
+        .perfil { top: 550px; left: 350px; }
+        .clientes { top: 600px; left: 480px; }
+        .ventas { top: 600px; left: 620px; }
+        .categorias { top: 600px; left: 760px; }
+        .roles { top: 550px; left: 900px; }
+        
+        /* Sub-cajas inferiores */
+        .lista-reportes { top: 450px; left: 20px; }
+        .info-perfil { top: 680px; left: 280px; }
+        .crud-clientes { top: 700px; left: 450px; }
+        .crud-ventas { top: 700px; left: 600px; }
+        .lista-categorias { top: 700px; left: 740px; }
+        .crud-roles { top: 620px; left: 920px; }
+        
+        /* Movimientos Inventario */
+        .inventario { top: 500px; left: 50px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="diagram">
+            <!-- SVG para líneas de conexión -->
+            <svg>
+                <!-- Líneas del centro hacia los módulos -->
+                <!-- Tablero -->
+                <line x1="550" y1="400" x2="250" y2="230"/>
+                <!-- Inicio -->
+                <line x1="550" y1="400" x2="400" y2="230"/>
+                <!-- Analíticas -->
+                <line x1="600" y1="400" x2="530" y2="230"/>
+                <!-- Base de Datos -->
+                <line x1="650" y1="380" x2="670" y2="180"/>
+                <!-- Usuarios -->
+                <line x1="700" y1="380" x2="830" y2="180"/>
+                <!-- Proveedores -->
+                <line x1="750" y1="400" x2="970" y2="210"/>
+                <!-- Productos -->
+                <line x1="750" y1="420" x2="1000" y2="380"/>
+                <!-- Citas/POS -->
+                <line x1="700" y1="450" x2="1050" y2="480"/>
+                <!-- Reportes -->
+                <line x1="500" y1="450" x2="250" y2="530"/>
+                <!-- Perfil -->
+                <line x1="550" y1="450" x2="400" y2="580"/>
+                <!-- Clientes -->
+                <line x1="600" y1="450" x2="530" y2="630"/>
+                <!-- Ventas -->
+                <line x1="650" y1="450" x2="670" y2="630"/>
+                <!-- Categorías -->
+                <line x1="700" y1="450" x2="810" y2="630"/>
+                <!-- Roles -->
+                <line x1="750" y1="450" x2="950" y2="580"/>
+                
+                <!-- Líneas secundarias -->
+                <line x1="250" y1="200" x2="100" y2="230"/>
+                <line x1="250" y1="530" x2="100" y2="500"/>
+                <line x1="350" y1="200" x2="350" y2="110"/>
+                <line x1="530" y1="200" x2="500" y2="110"/>
+                <line x1="670" y1="150" x2="650" y2="80"/>
+                <line x1="830" y1="150" x2="820" y2="80"/>
+                <line x1="970" y1="180" x2="1000" y2="130"/>
+                <line x1="1000" y1="380" x2="1070" y2="280"/>
+                <line x1="1050" y1="480" x2="1030" y2="530"/>
+                <line x1="400" y1="580" x2="330" y2="710"/>
+                <line x1="530" y1="630" x2="500" y2="730"/>
+                <line x1="670" y1="630" x2="650" y2="730"/>
+                <line x1="810" y1="630" x2="790" y2="730"/>
+                <line x1="950" y1="580" x2="970" y2="650"/>
+            </svg>
+            
+            <!-- CAJA CENTRAL -->
+            <div class="center-box center">
+                Sistema de Control de Inventario<br>y Facturación - Farmacia Maribel
+            </div>
+            
+            <!-- MÓDULOS PRINCIPALES - FILA SUPERIOR -->
+            <div class="module-box tablero">Tablero</div>
+            <div class="module-box inicio">Inicio</div>
+            <div class="module-box analiticas">Analíticas</div>
+            <div class="secondary-box base-datos">Base de<br>Datos</div>
+            <div class="secondary-box usuarios">Usuarios</div>
+            
+            <!-- Sub-cajas superiores -->
+            <div class="sub-box estadisticas">Estadísticas<br>simples</div>
+            <div class="sub-box bienvenida">Bienvenida al<br>usuario</div>
+            <div class="sub-box graficos">Gráficos de barras y<br>pastel</div>
+            <div class="sub-box exportar">
+                <ul>
+                    <li>Exportar</li>
+                    <li>Importar</li>
+                    <li>Backup</li>
+                    <li>Restaurar</li>
+                </ul>
+            </div>
+            <div class="sub-box crud-usuarios">Crear, editar,<br>eliminar, listar</div>
+            
+            <!-- MÓDULOS DERECHA -->
+            <div class="secondary-box proveedores">Proveedores</div>
+            <div class="sub-box crud-proveedores">Crear, editar,<br>eliminar, listar</div>
+            <div class="secondary-box productos">Productos</div>
+            <div class="sub-box consultas-prov">
+                <ul>
+                    <li>Listar productos</li>
+                    <li>Control de stock</li>
+                    <li>Fecha vencimiento</li>
+                </ul>
+            </div>
+            <div class="module-box citas">POS<br>(Punto de Venta)</div>
+            <div class="sub-box funciones-productos">
+                <ul>
+                    <li>Realizar ventas</li>
+                    <li>Generar recibos</li>
+                    <li>Aplicar descuentos</li>
+                </ul>
+            </div>
+            
+            <!-- MÓDULOS INFERIORES -->
+            <div class="module-box reportes">Reportes</div>
+            <div class="module-box perfil">Perfil</div>
+            <div class="module-box clientes">Clientes</div>
+            <div class="module-box ventas">Ventas</div>
+            <div class="module-box categorias">Categorías</div>
+            <div class="secondary-box roles">Roles</div>
+            
+            <!-- Sub-cajas inferiores -->
+            <div class="sub-box lista-reportes">
+                <ul>
+                    <li>Ventas por período</li>
+                    <li>Productos más vendidos</li>
+                    <li>Stock bajo</li>
+                    <li>Productos por vencer</li>
+                    <li>Ganancias totales</li>
+                    <li>Exportar a Excel</li>
+                </ul>
+            </div>
+            <div class="sub-box inventario">Movimientos<br>de Inventario</div>
+            <div class="sub-box info-perfil">Información del<br>usuario actual</div>
+            <div class="sub-box crud-clientes">Crear, editar,<br>eliminar, listar</div>
+            <div class="sub-box crud-ventas">
+                <ul>
+                    <li>Ver historial</li>
+                    <li>Detalles de venta</li>
+                    <li>Filtrar por fecha</li>
+                </ul>
+            </div>
+            <div class="sub-box lista-categorias">Listado de categorías<br>de productos</div>
+            <div class="sub-box crud-roles">
+                <ul>
+                    <li>Administrador</li>
+                    <li>Vendedor</li>
+                    <li>Consulta</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
