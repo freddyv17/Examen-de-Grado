@@ -1,65 +1,52 @@
 @echo off
-echo ============================================
-echo   MARIBEL FARMACIA - Iniciador del Sistema
-echo ============================================
+chcp 65001 >nul
+title Sistema Farmacia Maribel - Iniciando...
+color 0B
+
+echo.
+echo ╔═══════════════════════════════════════════════════════════════╗
+echo ║     SISTEMA DE CONTROL DE INVENTARIO Y FACTURACIÓN           ║
+echo ║                  FARMACIA MARIBEL                            ║
+echo ╚═══════════════════════════════════════════════════════════════╝
 echo.
 
-:: Verificar que MongoDB esté corriendo
-echo [1/4] Verificando MongoDB...
-sc query MongoDB | find "RUNNING" >nul
-if errorlevel 1 (
-    echo      MongoDB no esta corriendo. Intentando iniciar...
-    net start MongoDB
-    timeout /t 3 >nul
+echo [1/3] Verificando MongoDB...
+sc query MongoDB >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ⚠️  ADVERTENCIA: El servicio MongoDB no está instalado como servicio
+    echo    Asegúrate de que MongoDB esté corriendo manualmente
 ) else (
-    echo      MongoDB esta corriendo correctamente.
+    echo ✅ Servicio MongoDB encontrado
 )
+
+echo.
+echo [2/3] Iniciando Backend (Puerto 8001)...
+start "Backend - Farmacia Maribel" cmd /k "cd /d %~dp0backend && python -m uvicorn server:app --host 0.0.0.0 --port 8001 --reload"
+
+echo    Esperando a que el backend inicie...
+timeout /t 5 /nobreak >nul
+
+echo.
+echo [3/3] Iniciando Frontend (Puerto 3000)...
+start "Frontend - Farmacia Maribel" cmd /k "cd /d %~dp0frontend && npm start"
+
+echo.
+echo ╔═══════════════════════════════════════════════════════════════╗
+echo ║     ✅ SISTEMA INICIADO                                      ║
+echo ╠═══════════════════════════════════════════════════════════════╣
+echo ║                                                               ║
+echo ║  🌐 Abre tu navegador en: http://localhost:3000              ║
+echo ║                                                               ║
+echo ║  📋 CREDENCIALES:                                            ║
+echo ║     Usuario: admin                                           ║
+echo ║     Contraseña: admin123                                     ║
+echo ║                                                               ║
+echo ║  ⚠️  NO CIERRES las ventanas de comandos que se abrieron     ║
+echo ║                                                               ║
+echo ╚═══════════════════════════════════════════════════════════════╝
 echo.
 
-:: Iniciar Backend
-echo [2/4] Iniciando Backend...
-cd /d "%~dp0backend"
-if exist "venv\Scripts\activate.bat" (
-    start "Backend - Maribel Farmacia" cmd /k "venv\Scripts\activate && uvicorn server:app --host 0.0.0.0 --port 8001 --reload"
-) else (
-    echo      ERROR: No se encontro el entorno virtual.
-    echo      Ejecuta primero: python -m venv venv
-    pause
-    exit /b 1
-)
-echo      Backend iniciado en http://localhost:8001
-echo.
+echo Presiona cualquier tecla para abrir el navegador...
+pause >nul
 
-:: Esperar un momento para que el backend inicie
-timeout /t 5 >nul
-
-:: Iniciar Frontend
-echo [3/4] Iniciando Frontend...
-cd /d "%~dp0frontend"
-start "Frontend - Maribel Farmacia" cmd /k "npm start"
-echo      Frontend iniciado en http://localhost:3000
-echo.
-
-:: Esperar y abrir navegador
-echo [4/4] Abriendo navegador...
-timeout /t 8 >nul
 start http://localhost:3000
-
-echo.
-echo ============================================
-echo   Sistema iniciado correctamente!
-echo ============================================
-echo.
-echo   - Backend: http://localhost:8001
-echo   - Frontend: http://localhost:3000
-echo.
-echo   Usuarios de prueba:
-echo   - admin / admin123 (Administrador)
-echo   - vendedor / vendedor123 (Vendedor)
-echo   - consulta / consulta123 (Solo consulta)
-echo.
-echo   Para detener el sistema, cierra las ventanas
-echo   de comandos que se abrieron.
-echo.
-echo ============================================
-pause
